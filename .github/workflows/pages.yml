@@ -1,0 +1,85 @@
+# Publishes website/ to GitHub Pages.
+#
+# The deploy job depends on the check job, so nothing publishes unless:
+#   - the validator's tests pass,
+#   - the site's Status claims are backed (scripts/verify-site-status.mjs):
+#     claims evidenced in this repository are verified against this tree, and
+#     every other claim must arrive through the platform's attestation
+#     (website/status-attestation.json), which has to exist, be under 7 days
+#     old, cover exactly the current map, and show every claim passing,
+#   - the site builds.
+#
+# The attestation is committed here by the platform's own CI on each push to
+# its main branch. That commit is a push to main, so it re-runs this workflow:
+# a fresh passing attestation republishes the site, a failing one blocks it
+# and the last good deployment stays up.
+#
+# Custom domain: put the domain in website/CNAME (it holds a placeholder that
+# the build leaves out). With an Actions-based Pages deployment GitHub reads
+# the custom domain from Settings > Pages, so set it there as well.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deployment at a time; never cancel a deploy that is in flight.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Tests, status gate, build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validator tests
+        run: pnpm test
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Status gate (blocks the deploy)
+        run: pnpm check:site
+
+      - name: Build the site
+        run: pnpm build:site
+
+      - name: Upload the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

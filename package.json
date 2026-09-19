@@ -13,7 +13,9 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:site": "node scripts/verify-site-status.mjs",
+    "build:site": "node scripts/build-site.mjs"
   },
   "dependencies": {
     "zod": "^4.4.3"
