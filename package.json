@@ -5,12 +5,28 @@
   "description": "The charter contract: schema, validator, validator tests, and the public site with its status check",
   "license": "Apache-2.0",
   "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./scripts/*": "./scripts/*",
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "packages",
+    "scripts",
+    "website"
+  ],
   "engines": {
     "node": ">=22.5.0",
     "pnpm": ">=10.0.0"
   },
   "packageManager": "pnpm@11.13.0",
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepare": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

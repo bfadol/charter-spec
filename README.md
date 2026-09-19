@@ -71,14 +71,29 @@ pnpm test
 pnpm typecheck
 ```
 
+## Use it as a dependency
+
+`pnpm build` compiles the contract to `dist/`; installing this repository as a
+git dependency builds it the same way. Modules are addressed by their path
+under `packages/platform/src/`, without the extension:
+
+```ts
+import { validateAppMetadata } from "charter-spec/lifecycle/validator";
+import { cacheConfigSchema } from "charter-spec/cache/config-schema";
+```
+
 ## The site's status claims
 
 `website/index.html` is hand-authored. Every claim in its Status section maps,
 in `website/status-map.json`, to evidence that can be checked mechanically: a
 claim under Shipped must have its evidence present, and a claim under In
-progress must have its evidence absent. Most of that evidence lives in the
-platform's codebase, so the full check runs there, against that tree. Paths in
-the map that point outside this repository are references into the platform.
+progress must have its evidence absent. Every entry names the repository its
+evidence lives in: `spec` (here) or `platform`. Spec claims are verified
+against this tree before every deploy. Platform claims are verified by the
+platform against its own tree, and the result arrives here as
+`website/status-attestation.json`; the deploy is blocked unless that record is
+under 7 days old, covers exactly the current map, and shows every claim
+passing.
 
 ## License
 
