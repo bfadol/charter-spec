@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charter, the governed micro-application platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F5F1;
+  --ink:#16161D;
+  --maroon:#7F1734;
+  --maroon-deep:#5E0F26;
+  --slate:#23262E;
+  --pass:#1F6E52;
+  --hairline:#D9D6CE;
+  --muted:#5C5B57;
+  --mono:'IBM Plex Mono',monospace;
+  --body:'Public Sans',system-ui,sans-serif;
+  --display:'Newsreader',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--maroon);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:2px solid var(--maroon);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--maroon)}
+
+/* nav */
+nav{position:sticky;top:0;background:rgba(246,245,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--hairline);z-index:50}
+.nav-inner{display:flex;align-items:baseline;justify-content:space-between;padding:18px 0}
+.wordmark{font-family:var(--display);font-size:22px;font-weight:500;color:var(--ink);letter-spacing:.01em}
+.wordmark:hover{text-decoration:none}
+.nav-links{display:flex;gap:28px;font-size:14px}
+.nav-links a{color:var(--ink)}
+.nav-links a:hover{color:var(--maroon);text-decoration:none}
+@media(max-width:760px){.nav-links{display:none}}
+
+/* hero */
+.hero{padding:88px 0 72px;border-bottom:1px solid var(--hairline)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:48px}}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,5vw,58px);line-height:1.08;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--maroon)}
+.hero p.lede{margin-top:24px;font-size:18px;color:var(--muted);max-width:46ch}
+.hero-actions{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 24px;font-size:14px;font-weight:600;border:1px solid var(--ink)}
+.btn.primary{background:var(--maroon);border-color:var(--maroon);color:#fff}
+.btn.primary:hover{background:var(--maroon-deep);text-decoration:none}
+.btn.ghost{color:var(--ink)}
+.btn.ghost:hover{border-color:var(--maroon);color:var(--maroon);text-decoration:none}
+
+/* the certificate */
+.cert{background:#FDFCF9;border:1px solid var(--hairline);box-shadow:0 1px 0 var(--hairline),0 24px 48px -32px rgba(22,22,29,.25);padding:28px 28px 24px;position:relative;font-family:var(--mono);font-size:12.5px;line-height:1.75}
+.cert::before{content:"";position:absolute;inset:8px;border:1px solid var(--hairline);pointer-events:none}
+.cert-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--hairline)}
+.cert-head .fname{font-weight:500;color:var(--ink)}
+.cert-head .fmeta{font-size:11px;color:var(--muted)}
+.cert .k{color:var(--maroon)}
+.cert .v{color:var(--slate)}
+.cert .c{color:#8B8A85}
+.seal{position:absolute;right:22px;bottom:20px;width:112px;height:112px;transform:rotate(-8deg)}
+.seal svg{width:100%;height:100%}
+@media(prefers-reduced-motion:no-preference){
+  .seal{animation:stamp .5s cubic-bezier(.2,1.4,.4,1) .6s both}
+  @keyframes stamp{from{transform:rotate(-8deg) scale(1.6);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:1}}
+}
+
+/* sections */
+section{padding:80px 0;border-bottom:1px solid var(--hairline)}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,38px);line-height:1.15;margin:12px 0 20px;max-width:24ch}
+.section-lede{color:var(--muted);max-width:62ch;font-size:17px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:48px}
+@media(max-width:820px){.two-col{grid-template-columns:1fr;gap:32px}}
+.col h3{font-family:var(--display);font-weight:500;font-size:21px;margin-bottom:10px}
+.col p{color:var(--muted);font-size:15.5px}
+.col.problem h3{color:var(--muted)}
+.col.answer{border-left:2px solid var(--maroon);padding-left:28px}
+
+/* capabilities */
+.cap-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:48px;border:1px solid var(--hairline);background:var(--hairline);gap:1px}
+@media(max-width:900px){.cap-grid{grid-template-columns:repeat(2,1fr)}}
+.cap{background:var(--paper);padding:24px 22px}
+.cap .cap-id{font-family:var(--mono);font-size:12px;color:var(--maroon)}
+.cap h4{font-size:15px;font-weight:600;margin:8px 0 6px}
+.cap p{font-size:13.5px;color:var(--muted);line-height:1.5}
+
+/* pipeline */
+.pipeline{margin-top:52px;display:grid;gap:0}
+.stage{display:grid;grid-template-columns:72px 1fr;gap:24px;padding:26px 0;border-top:1px solid var(--hairline)}
+.stage:last-child{border-bottom:1px solid var(--hairline)}
+.stage.featured{background:#FDFCF9;border-left:3px solid var(--maroon);padding-left:24px;margin-left:-27px}
+@media(max-width:760px){.stage.featured{margin-left:0;padding-left:16px}}
+.stage.featured .proof{font-family:var(--display);font-style:italic;font-size:17px;color:var(--ink);margin-top:10px}
+.stage-num{font-family:var(--display);font-size:34px;color:var(--maroon);line-height:1;font-style:italic}
+.stage h4{font-size:16px;font-weight:600;margin-bottom:6px}
+.stage p{color:var(--muted);font-size:15px;max-width:66ch}
+.stage code{font-family:var(--mono);font-size:13px;background:#EDECE6;padding:1px 6px}
+
+/* tiers */
+.tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+@media(max-width:820px){.tier-grid{grid-template-columns:1fr}}
+.tier{border:1px solid var(--hairline);padding:32px 30px;background:#FDFCF9}
+.tier.own{border-top:3px solid var(--maroon)}
+.tier .tier-label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tier.own .tier-label{color:var(--maroon)}
+.tier h4{font-family:var(--display);font-size:22px;font-weight:500;margin:10px 0 12px}
+.tier p{color:var(--muted);font-size:15px}
+.tier ul{margin-top:14px;padding-left:18px;color:var(--muted);font-size:14.5px}
+.tier li{margin-bottom:6px}
+
+/* deploy */
+.deploy-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:48px;align-items:start}
+@media(max-width:820px){.deploy-grid{grid-template-columns:1fr}}
+.term{background:var(--slate);color:#E8E6DF;font-family:var(--mono);font-size:13.5px;line-height:1.9;padding:26px 28px;overflow-x:auto}
+.term .prompt{color:#7FA98F}
+.term .dim{color:#8E93A0}
+.deploy-note{font-size:13.5px;color:var(--muted);margin-top:16px}
+
+/* status */
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+@media(max-width:820px){.status-grid{grid-template-columns:1fr}}
+.status-col h4{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+.status-col.shipped h4{color:var(--pass)}
+.status-col.progress h4{color:var(--muted)}
+.status-col ul{list-style:none}
+.status-col li{padding:13px 0;border-top:1px solid var(--hairline);font-size:15px;display:flex;gap:12px;align-items:baseline}
+.status-col li::before{font-family:var(--mono);font-size:13px;flex-shrink:0}
+.shipped li::before{content:"✓";color:var(--pass)}
+.progress li::before{content:"→";color:var(--muted)}
+.status-col li span{color:var(--muted);font-size:13.5px;display:block}
+
+/* footer */
+footer{padding:56px 0 64px;font-size:13.5px;color:var(--muted)}
+.foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="#top">Charter</a>
+    <div class="nav-links">
+      <a href="#problem">Why</a>
+      <a href="#capabilities">Platform</a>
+      <a href="#pipeline">How it works</a>
+      <a href="#tiers">Governance</a>
+      <a href="#deploy">Deploy</a>
+      <a href="#status">Status</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">A governed micro-application platform</p>
+      <h1>Every app declares what it is. The platform <em>holds it to that.</em></h1>
+      <p class="lede">Charter replaces large monolithic IT delivery with small, AI-generated, purpose-built applications. Each one declares its charter: what it is, what it owns, where its data lives, what review it carries. Conformance is checked by machine, at authoring time, before a line of code ships.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#pipeline">See how an app is born</a>
+        <a class="btn ghost" href="#deploy">Deploy sovereign</a>
+      </div>
+    </div>
+    <div class="cert" aria-label="Example charter.yaml shown as a certificate of conformance">
+      <div class="cert-head">
+        <span class="fname">charter.yaml</span>
+        <span class="fmeta">validated at authoring time</span>
+      </div>
+      <div>
+        <span class="k">app</span><span class="v">: trade-mirror-worker</span><br>
+        <span class="k">template</span><span class="v">: worker</span><br>
+        <span class="k">ownership</span><span class="v">: consume</span><br>
+        <span class="k">capabilities</span><span class="v">:</span><br>
+        &nbsp;&nbsp;<span class="v">[config, observability,</span><br>
+        &nbsp;&nbsp;&nbsp;<span class="v">resilience, cache, lifecycle]</span><br>
+        <span class="k">provenance</span><span class="v">:</span><br>
+        &nbsp;&nbsp;<span class="k">generated</span><span class="v">: true</span><br>
+        &nbsp;&nbsp;<span class="k">pipeline</span><span class="v">: charter new</span><br>
+        &nbsp;&nbsp;<span class="k">reviewTier</span><span class="v">: standard</span><br>
+        <span class="c"># chartered is machine-checkable</span>
+      </div>
+      <div class="seal" aria-hidden="true">
+        <svg viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="56" fill="none" stroke="#7F1734" stroke-width="2.5"/>
+          <circle cx="60" cy="60" r="44" fill="none" stroke="#7F1734" stroke-width="1"/>
+          <path id="rim" d="M 60,60 m -50,0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" fill="none"/>
+          <text font-family="IBM Plex Mono" font-size="9.5" fill="#7F1734" letter-spacing="2.5">
+            <textPath href="#rim" startOffset="2%">CHARTERED · ميثاق · VALIDATION PASS ·</textPath>
+          </text>
+          <text x="60" y="57" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" fill="#7F1734" font-weight="500">PASS</text>
+          <text x="60" y="72" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#7F1734">charter check</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <p class="eyebrow">The problem</p>
+    <h2>Monoliths are slow. Ungoverned AI generation is sprawl.</h2>
+    <p class="section-lede">Public-sector IT programs put every new requirement into a monolith's backlog or a bespoke project that reinvents auth, logging, deployment, and security review from scratch. AI code generation makes producing apps cheap, but cheap production without governance produces unmaintainable sprawl. The gap is a platform that makes generated apps conformant, observable, and accounted for by construction.</p>
+    <div class="two-col">
+      <div class="col problem">
+        <h3>Without Charter</h3>
+        <p>Every app is a snowflake. Identity, telemetry, and secrets handled differently each time. Review happens after the fact, by reading code. Nobody can say with confidence what a generated app owns, where its data lives, or which model produced it.</p>
+      </div>
+      <div class="col answer">
+        <h3>With Charter</h3>
+        <p>Apps conform to one scaffold and inherit shared capabilities instead of reimplementing them. Each app carries a declared charter, validated against the same schema the runtime enforces. Existing ERPs and CRMs are never modified: apps run alongside them, non-invasive by construction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities">
+  <div class="wrap">
+    <p class="eyebrow">The platform</p>
+    <h2>Eight capabilities available to every chartered app, declared per app, wired by the platform.</h2>
+    <p class="section-lede">Providers are configuration: the same app runs against Entra ID or any OIDC provider, Application Insights or any OpenTelemetry backend, without a code change.</p>
+    <div class="cap-grid">
+      <div class="cap"><div class="cap-id">identity</div><h4>Identity</h4><p>OIDC as the open standard. Auth middleware and token handling from the platform, provider chosen by config.</p></div>
+      <div class="cap"><div class="cap-id">observability</div><h4>Observability</h4><p>OpenTelemetry built in at boot. Every app is traceable and operable from day one, or it is not chartered.</p></div>
+      <div class="cap"><div class="cap-id">config</div><h4>Configuration</h4><p>Loaded once through the platform layer, including secrets via a pluggable vault abstraction.</p></div>
+      <div class="cap"><div class="cap-id">resilience</div><h4>Resilience</h4><p>Timeouts on every outbound call, bounded retries, declared behavior on dependency failure.</p></div>
+      <div class="cap"><div class="cap-id">cache</div><h4>Caching</h4><p>In-memory, Redis, or off, selected by config. App code never knows which backend is live.</p></div>
+      <div class="cap"><div class="cap-id">feature-flags</div><h4>Feature flags</h4><p>Role and tenant targeting, per-ministry rollouts, percentage releases, cloud-neutral.</p></div>
+      <div class="cap"><div class="cap-id">data-access</div><h4>Data access</h4><p>Governed Postgres persistence with write-deduplication and idempotency, for apps that own data.</p></div>
+      <div class="cap"><div class="cap-id">lifecycle</div><h4>Lifecycle</h4><p>App metadata, versioning, and lifecycle governance carried in the charter itself.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pipeline">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>From a written spec to a chartered app, with a birth certificate.</h2>
+    <p class="section-lede">Generation runs through <code style="font-family:var(--mono);font-size:15px">charter new</code>, a staged pipeline with gates between stages. An app that skips the pipeline has no provenance, and an app without provenance fails conformance. The pipeline is model-agnostic: the generating model sits behind a swappable provider interface, like every other provider in the platform.</p>
+    <div class="pipeline">
+      <div class="stage">
+        <div class="stage-num">1</div>
+        <div><h4>Write the spec</h4><p>A plain-language solution spec: what the app does, its sources, cadence, outputs, and how it behaves when things fail. The spec is plain language. The translation stage proposes a charter with a rationale per field, and a person concludes ownership and classification, with the answer and the respondent recorded.</p></div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">2</div>
+        <div><h4>Run the pipeline</h4><p><code>charter new</code> assembles each stage's prompt from the spec, the live schema, and the platform templates, generates through the model provider, and gates every stage. Nothing advances past a failed gate.</p></div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">3</div>
+        <div><h4>Validate by machine</h4><p>The app's charter is validated against the same schema the runtime enforces. <code>charter check</code> runs independently after the pipeline: conformance is verified, not claimed. Owned-data apps route automatically to heightened review.</p></div>
+      </div>
+      <div class="stage featured">
+        <div class="stage-num">4</div>
+        <div><h4>Stamp provenance</h4><p>The run report captures the exact prompts sent to the model, the model identity, and the schema version, referenced from the app's provenance block. Provenance is not a runtime capability, it is the platform's answer to the question no model can answer: who authorized this app, and how was it made.</p>
+        <p class="proof">Every chartered app can prove how it was made.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tiers">
+  <div class="wrap">
+    <p class="eyebrow">Governance</p>
+    <h2>Two tiers. One is the default, the other is earned.</h2>
+    <p class="section-lede">Non-invasiveness to existing systems is absolute in both tiers. What varies is not whether apps can write, both tiers can, but who holds authority over the data. Ownership is never a silent default: it is declared, bounded, and machine-checked.</p>
+    <div class="tier-grid">
+      <div class="tier">
+        <div class="tier-label">Standard tier · default</div>
+        <h4>Consuming apps</h4>
+        <p>Not read-only. Consuming apps submit requests, trigger workflows, and update records, always through existing systems' sanctioned interfaces. What they never do is become the official record: source systems stay authoritative, and the app holds no durable state beyond caches and operational artifacts. Most apps belong here.</p>
+      </div>
+      <div class="tier own">
+        <div class="tier-label">Governed tier · heightened review</div>
+        <h4>Owning apps</h4>
+        <p>The app owns a Postgres database and becomes the system of record for a bounded domain. Legitimate, and deliberately expensive. It cannot pass validation without declaring:</p>
+        <ul>
+          <li>Its system-of-record boundary, stated precisely</li>
+          <li>Its data residency: sovereign cloud, on-prem, or air-gapped</li>
+          <li>Heightened review, routed automatically by the schema</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="deploy">
+  <div class="wrap">
+    <p class="eyebrow">Deployment</p>
+    <h2>Sovereign by default. A kubeconfig is enough.</h2>
+    <div class="deploy-grid">
+      <div>
+        <p class="section-lede">Charter is cloud-agnostic and built on open standards: OIDC for identity, OpenTelemetry for observability, OpenTofu for infrastructure. The portable path targets any conformant Kubernetes cluster, including sovereign cloud, on-prem, and air-gapped environments, with no cloud-provider dependency in the plan. The same app moves between environments by configuration alone. Certification currently has one public-registry dependency, the audit gate's advisory lookup, logged as a finding; offline certification is not yet claimed.</p>
+        <p class="deploy-note">An optional Azure-native path (Bicep, Container Apps) exists as a convenience for teams already committed to Azure. It is not part of the portability claim. AWS and GCP provider implementations are deferred and incremental behind the same interface.</p>
+      </div>
+      <div>
+        <div class="term">
+<span class="prompt">$</span> charter new specs/trade-mirror.md<br>
+<span class="dim">  stage 1/4 · charter drafted ······ pass</span><br>
+<span class="dim">  stage 2/4 · generation ··········· pass</span><br>
+<span class="dim">  stage 3/4 · charter check ········ pass</span><br>
+<span class="dim">  stage 4/4 · provenance stamped ··· pass</span><br>
+<br>
+<span class="prompt">$</span> tofu apply -var-file=sovereign.tfvars<br>
+<span class="dim">  cluster: on-prem · kubeconfig only</span><br>
+<span class="dim">  apply complete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="status">
+  <div class="wrap">
+    <p class="eyebrow">Status · September 2026</p>
+    <h2>What is real today, and what is next.</h2>
+    <div class="status-grid">
+      <div class="status-col shipped">
+        <h4>Shipped</h4>
+        <ul>
+          <li><div>Platform foundation, cloud-agnostic<span>Proven by the reference app booting with zero cloud services</span></div></li>
+          <li><div>All eight shared capabilities<span>Including governed data access, caching, and feature flags</span></div></li>
+          <li><div>Generation pipeline, <span style="display:inline;font-family:var(--mono);font-size:14px;color:var(--ink)">charter new</span><span>Staged, gated, with authoring-time validation against the runtime schema</span></div></li>
+          <li><div>Provenance and prompt capture<span>Exact prompts, model identity, and schema version per generated app</span></div></li>
+          <li><div>Spec-to-charter translation<span>Plain-language specs proposed into charters by the pipeline, so authors need requirement language, not platform vocabulary</span></div></li>
+          <li><div>First pilot: CERT<span>Generated end to end, fully local, with a live Platform Panel</span></div></li>
+          <li><div>Second pilot: Trade Mirror Report<span>Generated end to end through the harness; generation 1 stamped 2026-07-04 at 89.09% gate coverage</span></div></li>
+          <li><div>Second pilot: regeneration lineage<span>Demonstrated on trade-mirror at generation 2: regenerated 2026-09-12 from a human-concluded re-translation, chain verified to generation 1 by charter check, stamped at 90.88% gate coverage</span></div></li>
+          <li><div>Second pilot: adapter-level live verification<span>A national open data portal live-verified at adapter level on 2026-07-08, on the generation-1 adapter built outside the harness; an international trade statistics database probed to authentication refusal. Not repeated on generation 2, whose adapters are fixture-tested only</span></div></li>
+          <li><div>Capability-config validation<span>Declared capability config validated against pinned schemas at every generation gate and in charter check; charters declare configuration, never credentials</span></div></li>
+          <li><div>Organizational accountability<span>Every charter names an accountable unit, resolved against a versioned owner registry at authoring time and at certification; an unregistered or placeholder owner fails by name</span></div></li>
+          <li><div>Data classification with tier routing<span>Classification is concluded by a person, never defaulted; restricted or confidential routes the app to heightened review exactly as owned data does, and never lowers a tier</span></div></li>
+          <li><div>Review-by enforcement<span>Every charter carries a re-review date proposed from its tier and confirmed by a person; a date in the past fails certification by name, REVIEW_BY_EXPIRED, not a warning</span></div></li>
+          <li><div>Integrations declared per app<span>External systems declared per app with hosts, credentials by reference, and cadence; a static gate fails an undeclared outbound host by name and warns by name on declared-but-unwired or statically unresolvable targets. Static detection only: runtime egress verification is not built</span></div></li>
+          <li><div>Declared-versus-wired capability conformance<span>Every declared capability must be wired and every wired capability declared, checked statically in both directions at certification, with the pilot-two identity finding as its permanent test fixture. Static detection; runtime truth is not claimed</span></div></li>
+          <li><div>Cloud-neutral deployment hardening<span>Multi-environment OpenTofu, secret rotation without redeploy, per-environment trace sampling, alert rules as code, and a deploy path with rollback exercised on a local cluster</span></div></li>
+        </ul>
+      </div>
+      <div class="status-col progress">
+        <h4>In progress</h4>
+        <ul>
+          <li><div>External stakeholder pilot<span>A real client problem with connected systems, the platform's proving ground</span></div></li>
+          <li><div>Second pilot: live operation<span>Adapter-level live verification on the generation-2 code, and end-to-end scheduled operation, neither yet demonstrated; the only scheduled runs on record failed and the rendered demo was fixture-fed</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="fm">Charter</div>
+      <div>A governed micro-application platform.</div>
+    </div>
+    <div>
+      Chartered is machine-checkable.<br>
+      © 2026
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

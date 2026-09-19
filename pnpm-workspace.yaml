@@ -1,0 +1,5 @@
+# Build-script policy (pnpm >= 11 blocks postinstall scripts by default).
+# esbuild ships its platform binary via optionalDependencies, so its
+# postinstall fallback is unnecessary and stays denied.
+allowBuilds:
+  esbuild: false

@@ -1,0 +1,26 @@
+{
+  "name": "charter-spec",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The charter contract: schema, validator, validator tests, and the public site with its status check",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@11.13.0",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.3",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.6"
+  }
+}
