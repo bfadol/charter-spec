@@ -7,18 +7,18 @@
  * which this repository cannot see. So the gate has two halves:
  *
  *   1. LOCAL. Everything that can be verified from this tree is verified
- *      here: the page and the map agree one-to-one per column, and every
- *      path-evidenced claim whose evidence lives in this repository has all
- *      of its evidence present. A claim is local when at least one of its
- *      evidence paths exists here; then every one of them must.
+ *      here: the page and the map agree one-to-one per column, every map
+ *      entry names its repo, and every "repo": "spec" claim is verified
+ *      against this tree, exactly as the platform verifies it.
  *
  *   2. ATTESTED. The platform runs the full check against its own tree and
  *      commits the result here as website/status-attestation.json. The gate
  *      requires that record to exist, to be under 7 days old, to cover exactly
  *      the claims in the current map, and to show every one of them passing.
  *
- * Evidence commands in the map are never executed here: they are written for
- * the platform's tree, and their results arrive through the attestation.
+ * Platform claims' evidence is never evaluated here: their paths and commands
+ * are written for the platform's tree, and their results arrive through the
+ * attestation.
  *
  * Run from the repo root: node scripts/verify-site-status.mjs
  * Exits 1 naming every problem.
@@ -26,7 +26,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { pageClaims } from "./check-status-claims.mjs";
+import { pageClaims, verdict, REPOS } from "./check-status-claims.mjs";
 
 const HTML_PATH = "website/index.html";
 const MAP_PATH = "website/status-map.json";
@@ -63,22 +63,21 @@ export function pageMapProblems(page, map, mapPath = MAP_PATH) {
 }
 
 /**
- * Verify the claims whose evidence lives in this repository. Returns the
- * claims verified here and any problems; every other claim is left to the
- * attestation.
+ * Verify the "repo": "spec" claims against this tree. Returns the claims
+ * verified here and any problems; platform claims are left to the attestation.
  */
 export function localClaimResults(map, cwd = process.cwd()) {
   const verified = [];
   const problems = [];
   for (const entry of map.claims) {
-    const paths = entry.verify?.paths;
-    if (!paths || entry.status !== "shipped") continue;
-    const missing = paths.filter((p) => !existsSync(resolve(cwd, p)));
-    if (missing.length === paths.length) continue; // evidence lives in the platform
-    verified.push(entry.claim);
-    if (missing.length > 0) {
-      problems.push(`shipped claim "${entry.claim}" is evidenced in this repository but is missing: ${missing.join(", ")}`);
+    if (!REPOS.includes(entry.repo)) {
+      problems.push(`${entry.status} claim "${entry.claim}" must name its repo ("spec" or "platform"), got ${JSON.stringify(entry.repo)}`);
+      continue;
     }
+    if (entry.repo !== "spec") continue; // evidence lives in the platform
+    verified.push(entry.claim);
+    const v = verdict(entry, cwd);
+    if (!v.ok) problems.push(`${entry.status} spec claim "${entry.claim}" diverged: ${v.detail}`);
   }
   return { verified, problems };
 }
@@ -159,7 +158,7 @@ export function verifySiteStatus({
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const { problems, verifiedLocally, total, attestation } = verifySiteStatus();
-  console.log(`  local:    page and map compared; ${verifiedLocally.length} claim(s) evidenced in this repository:`);
+  console.log(`  local:    page and map compared; ${verifiedLocally.length} spec claim(s) verified against this tree:`);
   for (const claim of verifiedLocally) console.log(`              ${claim}`);
   if (attestation?.platformCommit) {
     console.log(`  attested: ${total} claim(s) by platform ${String(attestation.platformCommit).slice(0, 12)} at ${attestation.generatedAt}`);

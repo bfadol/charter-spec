@@ -28,7 +28,7 @@ describe("status anti-drift check", () => {
     const dir = fixture({
       shipped: [],
       progress: [["Live operation", "not yet demonstrated"]],
-      map: { claims: [{ claim: "Live operation", status: "in-progress", verify: { paths: ["evidence/live"] } }] },
+      map: { claims: [{ claim: "Live operation", status: "in-progress", repo: "platform", verify: { paths: ["evidence/live"] } }] },
     });
     mkdirSync(join(dir, "evidence", "live"), { recursive: true }); // the pending part has shipped
     const { failures } = checkStatusClaims({ htmlPath: "index.html", mapPath: "status-map.json", cwd: dir });
@@ -40,7 +40,7 @@ describe("status anti-drift check", () => {
     const dir = fixture({
       shipped: [],
       progress: [["Live operation", "not yet demonstrated"]],
-      map: { claims: [{ claim: "Live operation", status: "in-progress", verify: { command: "true" } }] },
+      map: { claims: [{ claim: "Live operation", status: "in-progress", repo: "platform", verify: { command: "true" } }] },
     });
     const { failures } = checkStatusClaims({ htmlPath: "index.html", mapPath: "status-map.json", cwd: dir });
     expect(failures).toHaveLength(1);
@@ -51,7 +51,7 @@ describe("status anti-drift check", () => {
     const dir = fixture({
       shipped: [["Regeneration lineage", "demonstrated"]],
       progress: [],
-      map: { claims: [{ claim: "Regeneration lineage", status: "shipped", verify: { paths: ["evidence/regen.md"] } }] },
+      map: { claims: [{ claim: "Regeneration lineage", status: "shipped", repo: "platform", verify: { paths: ["evidence/regen.md"] } }] },
     });
     const { failures } = checkStatusClaims({ htmlPath: "index.html", mapPath: "status-map.json", cwd: dir });
     expect(failures).toHaveLength(1);
@@ -62,11 +62,47 @@ describe("status anti-drift check", () => {
     const dir = fixture({
       shipped: [["Mapped", "ok"], ["Unmapped", "no entry"]],
       progress: [],
-      map: { claims: [{ claim: "Mapped", status: "shipped", verify: { command: "true" } }] },
+      map: { claims: [{ claim: "Mapped", status: "shipped", repo: "platform", verify: { command: "true" } }] },
     });
     const { failures } = checkStatusClaims({ htmlPath: "index.html", mapPath: "status-map.json", cwd: dir });
     expect(failures.some((f) => /has no mapping entry/.test(f))).toBe(true);
     expect(failures.some((f) => /one-to-one required/.test(f))).toBe(true);
+  });
+
+  it("NEGATIVE: a mapping entry that does not name its repo fails by name", () => {
+    const dir = fixture({
+      shipped: [["Unplaced", "evidence exists, repo unnamed"]],
+      progress: [],
+      map: { claims: [{ claim: "Unplaced", status: "shipped", verify: { command: "true" } }] },
+    });
+    const { failures } = checkStatusClaims({ htmlPath: "index.html", mapPath: "status-map.json", cwd: dir });
+    expect(failures).toHaveLength(1);
+    expect(failures[0]).toMatch(/shipped claim "Unplaced" diverged: mapping entry must name its repo \("spec" or "platform"\), got undefined/);
+  });
+
+  it("spec claims resolve against the spec root and platform claims against the working tree", () => {
+    // The page and the map are the spec's: they are read from the spec root.
+    const spec = fixture({
+      shipped: [["Schema", "in the spec"], ["Pipeline", "in the platform"]],
+      progress: [],
+      map: {
+        claims: [
+          { claim: "Schema", status: "shipped", repo: "spec", verify: { paths: ["contract/schema.ts"] } },
+          { claim: "Pipeline", status: "shipped", repo: "platform", verify: { command: "test -f cli/pipeline.ts" } },
+        ],
+      },
+    });
+    const platform = mkdtempSync(join(tmpdir(), "status-claims-platform-"));
+    mkdirSync(join(spec, "contract"));
+    writeFileSync(join(spec, "contract", "schema.ts"), "export {};");
+    mkdirSync(join(platform, "cli"));
+    writeFileSync(join(platform, "cli", "pipeline.ts"), "export {};");
+    const opts = { htmlPath: "index.html", mapPath: "status-map.json" };
+    expect(checkStatusClaims({ ...opts, cwd: platform, specRoot: spec }).failures).toEqual([]);
+
+    // NEGATIVE: run from the spec tree alone, the platform claim's evidence is not there.
+    const specOnly = checkStatusClaims({ ...opts, cwd: spec, specRoot: spec });
+    expect(specOnly.failures).toEqual([expect.stringMatching(/shipped claim "Pipeline" diverged: command failed/)]);
   });
 
   it("the shipped and in-progress verdicts pass when the tree matches the map", () => {
@@ -75,8 +111,8 @@ describe("status anti-drift check", () => {
       progress: [["Live operation", "not yet demonstrated"]],
       map: {
         claims: [
-          { claim: "Regeneration lineage", status: "shipped", verify: { paths: ["evidence/regen.md"] } },
-          { claim: "Live operation", status: "in-progress", verify: { paths: ["evidence/live"] } },
+          { claim: "Regeneration lineage", status: "shipped", repo: "platform", verify: { paths: ["evidence/regen.md"] } },
+          { claim: "Live operation", status: "in-progress", repo: "platform", verify: { paths: ["evidence/live"] } },
         ],
       },
     });

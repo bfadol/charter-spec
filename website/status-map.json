@@ -7,12 +7,16 @@
     "zero. in-progress: verified as NOT shipped: every listed path must be",
     "absent / the command must exit non-zero. Claim text must match the page's",
     "Status list one-to-one per column. A claim on the page with no mapping",
-    "entry, or vice versa, is drift."
+    "entry, or vice versa, is drift.",
+    "Every entry names the repository its evidence lives in: repo is spec (this",
+    "repository) or platform (the platform's codebase). Evidence paths and",
+    "commands are relative to that repository's root."
   ],
   "claims": [
     {
       "claim": "Platform foundation, cloud-agnostic",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "paths": [
           "packages/platform/src/providers/index.ts",
@@ -25,6 +29,7 @@
     {
       "claim": "All eight shared capabilities",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "node -e \"['identity','config','observability','resilience','cache','feature-flags','data','lifecycle'].forEach(d => require('node:fs').accessSync('packages/platform/src/' + d))\""
       },
@@ -33,6 +38,7 @@
     {
       "claim": "Generation pipeline, charter new",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "paths": [
           "packages/platform/src/cli/pipeline.ts",
@@ -45,6 +51,7 @@
     {
       "claim": "Provenance and prompt capture",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "test -f packages/platform/src/cli/capture.ts && test -f packages/platform/src/cli/run-report.ts && ls ai-generation/runs/*/stage1-scaffold.prompt.md > /dev/null"
       },
@@ -53,6 +60,7 @@
     {
       "claim": "Spec-to-charter translation",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "paths": [
           "packages/platform/src/cli/translate.ts",
@@ -66,6 +74,7 @@
     {
       "claim": "First pilot: CERT",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "grep -q '^provenance:' packages/cert-api/charter.yaml && test -f packages/cert-web/package.json"
       },
@@ -74,6 +83,7 @@
     {
       "claim": "Second pilot: Trade Mirror Report",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "grep -q '^provenance:' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-07-04T12-38-14-357Z.json && test -f docs/pilots/trade-mirror/phase2-generation.md"
       },
@@ -82,6 +92,7 @@
     {
       "claim": "Second pilot: regeneration lineage",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "grep -q '^    generation: 2$' packages/trade-mirror/charter.yaml && grep -q 'runReport: ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json && test -f docs/pilots/trade-mirror/regeneration-2026-09-12.md"
       },
@@ -90,6 +101,7 @@
     {
       "claim": "Second pilot: adapter-level live verification",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "grep -q '^\\*\\*SA-7' docs/pilots/trade-mirror/friction-log.md && grep -q '^\\*\\*V-8' docs/pilots/trade-mirror/friction-log.md && test -f docs/pilots/trade-mirror/recovered-runtime-evidence/README.md"
       },
@@ -98,6 +110,7 @@
     {
       "claim": "Second pilot: live operation",
       "status": "in-progress",
+      "repo": "platform",
       "verify": {
         "paths": [
           "docs/pilots/trade-mirror/live-operation"
@@ -109,6 +122,7 @@
     {
       "claim": "Capability-config validation",
       "status": "shipped",
+      "repo": "spec",
       "verify": {
         "paths": [
           "packages/platform/src/lifecycle/capability-config.ts",
@@ -117,27 +131,32 @@
           "packages/platform/src/data/config-schema.ts"
         ]
       },
-      "why": "The capability→schema registry and the three pinned config schemas the gates and charter check enforce."
+      "why": "The capability-to-schema registry and the three pinned config schemas the gates and charter check enforce. Evidence is in the spec: these four files are the contract the platform consumes."
     },
     {
       "claim": "Organizational accountability",
       "status": "shipped",
+      "repo": "spec",
       "verify": {
-        "command": "test -f governance/org-units.yaml && grep -q 'OWNER_UNREGISTERED' packages/platform/src/cli/owner-registry.ts && grep -q 'OWNER_PLACEHOLDER' packages/platform/src/cli/owner-registry.ts && grep -q 'export const accountabilitySchema' packages/platform/src/lifecycle/validator.ts"
+        "command": "grep -q 'export const accountabilitySchema' packages/platform/src/lifecycle/validator.ts && grep -q 'accountability: accountabilitySchema' packages/platform/src/lifecycle/validator.ts"
       },
-      "why": "The registry the owner resolves against, the resolver with its named failures (OWNER_UNREGISTERED, OWNER_PLACEHOLDER), and the accountability block in the pinned schema. Shipped July 2026."
+      "why": "Spec evidence only: the accountability block exists in the pinned schema and is required on every charter. Shipped July 2026. Narrowed 2026-09-19 when the contract moved to its own repository: a spec entry can see only spec files, so the platform half of the page's sentence (the owner registry the unit resolves against, and the named failures OWNER_UNREGISTERED and OWNER_PLACEHOLDER) is no longer verified by this entry.",
+      "note": "GRADE NOTE (2026-09-19): before the split this entry also checked governance/org-units.yaml and the two named failure codes in the platform's owner-registry resolver. Those artifacts are in the platform repository. Restoring that evidence means a platform entry for it, which needs its own claim on the page because page and map are one-to-one."
     },
     {
       "claim": "Data classification with tier routing",
       "status": "shipped",
+      "repo": "spec",
       "verify": {
-        "command": "grep -q 'HEIGHTENED_CLASSIFICATIONS' packages/platform/src/lifecycle/validator.ts && grep -q '## Classification routing' ai-generation/rules/tier-routing.md"
+        "command": "grep -q 'HEIGHTENED_CLASSIFICATIONS' packages/platform/src/lifecycle/validator.ts && grep -q 'export function derivedReviewTier' packages/platform/src/lifecycle/validator.ts"
       },
-      "why": "The schema's routing rule (heightened classifications derive the tier alongside ownership) and the authoring rule that classification is always asked. Shipped July 2026."
+      "why": "Spec evidence only: the schema's routing rule (heightened classifications derive the tier alongside ownership, and only ever raise it). Shipped July 2026. Narrowed 2026-09-19 when the contract moved to its own repository: the authoring rule that classification is always asked of a person lives in the platform (ai-generation/rules/tier-routing.md) and is no longer verified by this entry.",
+      "note": "GRADE NOTE (2026-09-19): before the split this entry also checked the '## Classification routing' section of the platform's tier-routing rule. Restoring that evidence means a platform entry for it, which needs its own claim on the page because page and map are one-to-one."
     },
     {
       "claim": "Review-by enforcement",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "grep -q 'REVIEW_BY_EXPIRED' packages/platform/src/cli/check.ts"
       },
@@ -146,6 +165,7 @@
     {
       "claim": "Integrations declared per app",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "test -f packages/platform/src/cli/integration-conformance.ts && grep -q 'INTEGRATION_UNDECLARED_HOST' packages/platform/src/cli/integration-conformance.ts && grep -q 'INTEGRATION_DECLARED_UNWIRED' packages/platform/src/cli/integration-conformance.ts && grep -q 'runtime truth is phase 2' packages/platform/src/cli/integration-conformance.ts packages/platform/src/cli/check.ts"
       },
@@ -154,6 +174,7 @@
     {
       "claim": "Declared-versus-wired capability conformance",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "command": "test -f packages/platform/src/cli/capability-conformance.ts && grep -q 'CAPABILITY_DECLARED_UNWIRED' packages/platform/src/cli/capability-conformance.ts && grep -q 'CAPABILITY_UNDECLARED_WIRED' packages/platform/src/cli/capability-conformance.ts && grep -q 'PILOT-TWO fixture' packages/platform/src/cli/capability-conformance.test.ts"
       },
@@ -162,6 +183,7 @@
     {
       "claim": "Cloud-neutral deployment hardening",
       "status": "shipped",
+      "repo": "platform",
       "verify": {
         "paths": [
           "infrastructure/terraform/modules/charter-stack/main.tf",
@@ -176,6 +198,7 @@
     {
       "claim": "External stakeholder pilot",
       "status": "in-progress",
+      "repo": "platform",
       "verify": {
         "paths": [
           "docs/pilots/external"

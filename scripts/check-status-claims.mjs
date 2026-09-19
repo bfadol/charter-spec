@@ -11,7 +11,14 @@
  * And the mapping must match the page one-to-one per column: a claim on the
  * page with no mapping entry (or vice versa) is drift.
  *
- * Run from the repo root: node scripts/check-status-claims.mjs
+ * Every entry names the repository its evidence lives in: "repo": "spec"
+ * (this repository: the contract and the site) or "repo": "platform" (the
+ * platform's codebase). Evidence paths and commands are relative to that
+ * repository's root. The page and the map are the spec's, so they are read
+ * from the spec root. Run where both trees are reachable, from the platform
+ * root, naming where the spec lives:
+ *   node <spec>/scripts/check-status-claims.mjs --spec-root <spec>
+ * Without --spec-root the spec root is the working directory.
  * Exits 1 naming every diverged claim.
  */
 import { readFileSync, existsSync } from "node:fs";
@@ -21,6 +28,9 @@ import { pathToFileURL } from "node:url";
 
 const HTML_PATH = "website/index.html";
 const MAP_PATH = "website/status-map.json";
+
+/** The repositories a claim's evidence can live in. */
+export const REPOS = ["spec", "platform"];
 
 const stripTags = (s) => s.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
 
@@ -45,9 +55,14 @@ export function pageClaims(html, htmlPath = HTML_PATH) {
  * in-progress: verified as NOT shipped — every path is absent / the command
  * exits non-zero; an artifact that exists turns the claim red.
  */
-export function verdict(entry, cwd = process.cwd()) {
-  const { verify, status } = entry;
-  const exists = (p) => existsSync(resolve(cwd, p));
+export function verdict(entry, cwd = process.cwd(), specRoot = cwd) {
+  const { verify, status, repo } = entry;
+  if (!REPOS.includes(repo)) {
+    return { ok: false, detail: `mapping entry must name its repo ("spec" or "platform"), got ${JSON.stringify(repo)}` };
+  }
+  // Evidence is relative to the root of the repository the entry names.
+  const root = resolve(repo === "spec" ? specRoot : cwd);
+  const exists = (p) => existsSync(resolve(root, p));
   if (verify.paths) {
     const present = verify.paths.filter(exists);
     if (status === "shipped") {
@@ -64,7 +79,7 @@ export function verdict(entry, cwd = process.cwd()) {
   if (verify.command) {
     let exitZero = true;
     try {
-      execSync(verify.command, { stdio: "pipe", cwd });
+      execSync(verify.command, { stdio: "pipe", cwd: root });
     } catch {
       exitZero = false;
     }
@@ -83,9 +98,15 @@ export function verdict(entry, cwd = process.cwd()) {
  * per-entry lines the CLI prints. Pure with respect to process state so it
  * can be tested against fixture pages and maps.
  */
-export function checkStatusClaims({ htmlPath = HTML_PATH, mapPath = MAP_PATH, cwd = process.cwd() } = {}) {
-  const html = readFileSync(resolve(cwd, htmlPath), "utf-8");
-  const map = JSON.parse(readFileSync(resolve(cwd, mapPath), "utf-8"));
+export function checkStatusClaims({
+  htmlPath = HTML_PATH,
+  mapPath = MAP_PATH,
+  cwd = process.cwd(),
+  specRoot = cwd,
+} = {}) {
+  // The page and the map are the spec's own files.
+  const html = readFileSync(resolve(specRoot, htmlPath), "utf-8");
+  const map = JSON.parse(readFileSync(resolve(specRoot, mapPath), "utf-8"));
   const page = pageClaims(html, htmlPath);
   const failures = [];
   const lines = [];
@@ -119,7 +140,7 @@ export function checkStatusClaims({ htmlPath = HTML_PATH, mapPath = MAP_PATH, cw
 
   // 2. Artifact verification per entry.
   for (const entry of map.claims) {
-    const v = verdict(entry, cwd);
+    const v = verdict(entry, cwd, specRoot);
     const label = `${entry.status.padEnd(11)} ${entry.claim}`;
     if (v.ok) {
       lines.push(`  ✓ ${label}`);
@@ -131,9 +152,15 @@ export function checkStatusClaims({ htmlPath = HTML_PATH, mapPath = MAP_PATH, cw
   return { failures, lines, total: map.claims.length };
 }
 
-// CLI entry — unchanged behaviour: prints every entry, exits 1 naming every diverged claim.
+// CLI entry: prints every entry, exits 1 naming every diverged claim.
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const { failures, lines, total } = checkStatusClaims();
+  const i = process.argv.indexOf("--spec-root");
+  const specRoot = i === -1 ? undefined : process.argv[i + 1];
+  if (i !== -1 && !specRoot) {
+    console.error("usage: check-status-claims.mjs [--spec-root <dir>]");
+    process.exit(2);
+  }
+  const { failures, lines, total } = checkStatusClaims({ specRoot });
   for (const l of lines) console.log(l);
   if (failures.length > 0) {
     console.error(`\n✗ Status section has diverged from the repo (${failures.length} problem(s)):`);
