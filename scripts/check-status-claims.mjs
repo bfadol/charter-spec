@@ -21,7 +21,7 @@
  * Without --spec-root the spec root is the working directory.
  * Exits 1 naming every diverged claim.
  */
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, realpathSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -153,7 +153,10 @@ export function checkStatusClaims({
 }
 
 // CLI entry: prints every entry, exits 1 naming every diverged claim.
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+// realpath: a package manager may install this file behind a symlink, and a
+// symlinked argv[1] would never equal import.meta.url: the CLI would exit 0
+// having checked nothing.
+if (process.argv[1] && import.meta.url === pathToFileURL(realpathSync(resolve(process.argv[1]))).href) {
   const i = process.argv.indexOf("--spec-root");
   const specRoot = i === -1 ? undefined : process.argv[i + 1];
   if (i !== -1 && !specRoot) {

@@ -23,7 +23,7 @@
  * Run from the repo root: node scripts/verify-site-status.mjs
  * Exits 1 naming every problem.
  */
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, realpathSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { pageClaims, verdict, REPOS } from "./check-status-claims.mjs";
@@ -156,7 +156,10 @@ export function verifySiteStatus({
   return { problems, verifiedLocally: local.verified, total: map.claims.length, attestation };
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+// realpath: a package manager may install this file behind a symlink, and a
+// symlinked argv[1] would never equal import.meta.url: the CLI would exit 0
+// having checked nothing.
+if (process.argv[1] && import.meta.url === pathToFileURL(realpathSync(resolve(process.argv[1]))).href) {
   const { problems, verifiedLocally, total, attestation } = verifySiteStatus();
   console.log(`  local:    page and map compared; ${verifiedLocally.length} spec claim(s) verified against this tree:`);
   for (const claim of verifiedLocally) console.log(`              ${claim}`);
