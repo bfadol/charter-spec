@@ -1,6 +1,6 @@
 # charter-spec
 
-The charter contract, in the open.
+The charter contract.
 
 A **charter** (`charter.yaml`) is a machine-validated declaration an
 application carries: what it is, who answers for it, what it depends on, what
