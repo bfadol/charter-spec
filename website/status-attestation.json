@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "platformCommit": "c3052a28d77bd4c2283cffa35c5980da6666b82d",
+  "generatedAt": "2026-09-19T13:53:37Z",
+  "allPassed": true,
+  "total": 20,
+  "claims": [
+    {
+      "claim": "Platform foundation, cloud-agnostic",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "All eight shared capabilities",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Generation pipeline, charter new",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Provenance and prompt capture",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Spec-to-charter translation",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "First pilot: CERT",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Second pilot: Trade Mirror Report",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Second pilot: regeneration lineage",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Second pilot: adapter-level live verification",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Second pilot: live operation",
+      "status": "in-progress",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Capability-config validation",
+      "status": "shipped",
+      "repo": "spec",
+      "pass": true
+    },
+    {
+      "claim": "Organizational accountability: declared in every charter",
+      "status": "shipped",
+      "repo": "spec",
+      "pass": true
+    },
+    {
+      "claim": "Organizational accountability: owner registry",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Data classification: tier routing",
+      "status": "shipped",
+      "repo": "spec",
+      "pass": true
+    },
+    {
+      "claim": "Data classification: concluded by a person",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Review-by enforcement",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Integrations declared per app",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Declared-versus-wired capability conformance",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "Cloud-neutral deployment hardening",
+      "status": "shipped",
+      "repo": "platform",
+      "pass": true
+    },
+    {
+      "claim": "External stakeholder pilot",
+      "status": "in-progress",
+      "repo": "platform",
+      "pass": true
+    }
+  ],
+  "pageMapFailures": []
+}
