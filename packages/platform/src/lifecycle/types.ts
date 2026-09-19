@@ -1,8 +1,7 @@
 /**
  * Lifecycle module — type definitions.
  *
- * These types model the charter.yaml schema and the telemetry
- * event structure used by the reporter.
+ * These types model the charter.yaml schema.
  */
 
 import type { CacheConfig } from "../cache/config-schema.js";
@@ -189,34 +188,4 @@ export interface AppMetadata {
   integrations?: IntegrationDeclaration[];
   /** Present on harness-generated apps; absent on hand-written ones. */
   provenance?: ProvenanceDeclaration;
-}
-
-// ── Telemetry event types ────────────────────────────────────
-
-export type EventType = "api_request" | "worker_job" | "startup" | "custom";
-
-export interface TelemetryEvent {
-  appName: string;
-  eventType: EventType;
-  timestamp: Date;
-  /** Duration in milliseconds, if applicable */
-  durationMs?: number;
-  /** Arbitrary key-value metadata */
-  attributes: Record<string, string | number | boolean>;
-}
-
-// ── Deprecated types (backward compatibility) ────────────────
-
-/** @deprecated Use TelemetryEvent instead */
-export interface UsageEvent {
-  appName: string;
-  timestamp: Date;
-  eventType: string;
-}
-
-/** @deprecated Use AppMetadata instead */
-export interface LifecycleInfo {
-  status: LifecycleStatus;
-  daysSinceLastUsage: number;
-  thresholds: number[];
 }
