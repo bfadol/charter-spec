@@ -134,24 +134,40 @@
       "why": "The capability-to-schema registry and the three pinned config schemas the gates and charter check enforce. Evidence is in the spec: these four files are the contract the platform consumes."
     },
     {
-      "claim": "Organizational accountability",
+      "claim": "Organizational accountability: declared in every charter",
       "status": "shipped",
       "repo": "spec",
       "verify": {
         "command": "grep -q 'export const accountabilitySchema' packages/platform/src/lifecycle/validator.ts && grep -q 'accountability: accountabilitySchema' packages/platform/src/lifecycle/validator.ts"
       },
-      "why": "Spec evidence only: the accountability block exists in the pinned schema and is required on every charter. Shipped July 2026. Narrowed 2026-09-19 when the contract moved to its own repository: a spec entry can see only spec files, so the platform half of the page's sentence (the owner registry the unit resolves against, and the named failures OWNER_UNREGISTERED and OWNER_PLACEHOLDER) is no longer verified by this entry.",
-      "note": "GRADE NOTE (2026-09-19): before the split this entry also checked governance/org-units.yaml and the two named failure codes in the platform's owner-registry resolver. Those artifacts are in the platform repository. Restoring that evidence means a platform entry for it, which needs its own claim on the page because page and map are one-to-one."
+      "why": "The accountability block in the pinned schema, required on every charter. Shipped July 2026. Split 2026-09-19 from the former single claim when the contract moved to its own repository: each half is verified in the repository its evidence lives in."
     },
     {
-      "claim": "Data classification with tier routing",
+      "claim": "Organizational accountability: owner registry",
+      "status": "shipped",
+      "repo": "platform",
+      "verify": {
+        "command": "test -f governance/org-units.yaml && grep -q 'OWNER_UNREGISTERED' packages/platform/src/cli/owner-registry.ts && grep -q 'OWNER_PLACEHOLDER' packages/platform/src/cli/owner-registry.ts"
+      },
+      "why": "The registry the owner resolves against, and the resolver with its named failures (OWNER_UNREGISTERED, OWNER_PLACEHOLDER). Shipped July 2026. The platform half of the former single claim, carrying the same checks it carried before the split."
+    },
+    {
+      "claim": "Data classification: tier routing",
       "status": "shipped",
       "repo": "spec",
       "verify": {
         "command": "grep -q 'HEIGHTENED_CLASSIFICATIONS' packages/platform/src/lifecycle/validator.ts && grep -q 'export function derivedReviewTier' packages/platform/src/lifecycle/validator.ts"
       },
-      "why": "Spec evidence only: the schema's routing rule (heightened classifications derive the tier alongside ownership, and only ever raise it). Shipped July 2026. Narrowed 2026-09-19 when the contract moved to its own repository: the authoring rule that classification is always asked of a person lives in the platform (ai-generation/rules/tier-routing.md) and is no longer verified by this entry.",
-      "note": "GRADE NOTE (2026-09-19): before the split this entry also checked the '## Classification routing' section of the platform's tier-routing rule. Restoring that evidence means a platform entry for it, which needs its own claim on the page because page and map are one-to-one."
+      "why": "The schema's routing rule: heightened classifications derive the tier alongside ownership, and only ever raise it. Shipped July 2026. Split 2026-09-19 from the former single claim when the contract moved to its own repository."
+    },
+    {
+      "claim": "Data classification: concluded by a person",
+      "status": "shipped",
+      "repo": "platform",
+      "verify": {
+        "command": "grep -q '## Classification routing' ai-generation/rules/tier-routing.md"
+      },
+      "why": "The authoring rule that classification is always asked of a person, never defaulted. Shipped July 2026. The platform half of the former single claim, carrying the same check it carried before the split."
     },
     {
       "claim": "Review-by enforcement",

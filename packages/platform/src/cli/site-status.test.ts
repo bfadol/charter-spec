@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { verifySiteStatus } from "../../../../scripts/verify-site-status.mjs";
+import { pageClaims } from "../../../../scripts/check-status-claims.mjs";
+import { localClaimResults, pageMapProblems, verifySiteStatus } from "../../../../scripts/verify-site-status.mjs";
 
 /**
  * The site's deploy gate (scripts/verify-site-status.mjs), pinned: "repo":
@@ -139,5 +140,15 @@ describe("site deploy gate", () => {
     const { problems } = verifySiteStatus({ cwd: dir, now: NOW });
     expect(problems.some((p) => /has no mapping entry/.test(p))).toBe(true);
     expect(problems.some((p) => /one-to-one required/.test(p))).toBe(true);
+  });
+
+  it("the current tree: page and map agree one-to-one, every entry names its repo, and the spec claims hold", () => {
+    const root = process.cwd(); // vitest runs from the repo root
+    const map = JSON.parse(readFileSync(join(root, "website", "status-map.json"), "utf-8"));
+    const page = pageClaims(readFileSync(join(root, "website", "index.html"), "utf-8"));
+    expect(pageMapProblems(page, map)).toEqual([]);
+    const { verified, problems } = localClaimResults(map, root);
+    expect(problems).toEqual([]);
+    expect(verified.length).toBeGreaterThanOrEqual(3);
   });
 });
