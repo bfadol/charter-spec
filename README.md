@@ -88,9 +88,13 @@ import { cacheConfigSchema } from "charter-spec/cache/config-schema";
 in `website/status-map.json`, to evidence that can be checked mechanically: a
 claim under Shipped must have its evidence present, and a claim under In
 progress must have its evidence absent. Every entry names the repository its
-evidence lives in: `spec` (here) or `platform`. Spec claims are verified
-against this tree before every deploy. Platform claims are verified by the
-platform against its own tree, and the result arrives here as
+evidence lives in: `spec` (here), `platform`, or `record` (the maintainers'
+engineering record: findings and pilot records). A claim whose evidence spans
+repositories lists further parts under `also`, and every part must hold. Spec
+evidence is verified against this tree before every deploy. Platform and
+record evidence is verified by the platform against those trees; a tree that
+cannot be reached fails the claim, it is never skipped. The result arrives
+here as
 `website/status-attestation.json`; the deploy is blocked unless that record is
 under 7 days old, covers exactly the current map, and shows every claim
 passing.

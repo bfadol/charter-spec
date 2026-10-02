@@ -85,8 +85,14 @@
       "status": "shipped",
       "repo": "platform",
       "verify": {
-        "command": "grep -q '^provenance:' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-07-04T12-38-14-357Z.json && test -f docs/pilots/trade-mirror/phase2-generation.md"
+        "command": "grep -q '^provenance:' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-07-04T12-38-14-357Z.json"
       },
+      "also": [
+        {
+          "repo": "record",
+          "command": "test -f docs/pilots/trade-mirror/phase2-generation.md"
+        }
+      ],
       "why": "The stamped birth certificate, generation 1's exact run report, and the phase-2 evidence: the merged record. Split 2026-09-13 into one entry per part of the former five-part claim so that each part is verified at its own grade; the pending part moved to In progress (a stale 'regeneration pending' line passed green on 2026-09-12 because prose is not verified: only artifacts are)."
     },
     {
@@ -94,14 +100,20 @@
       "status": "shipped",
       "repo": "platform",
       "verify": {
-        "command": "grep -q '^    generation: 2$' packages/trade-mirror/charter.yaml && grep -q 'runReport: ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json && test -f docs/pilots/trade-mirror/regeneration-2026-09-12.md"
+        "command": "grep -q '^    generation: 2$' packages/trade-mirror/charter.yaml && grep -q 'runReport: ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json"
       },
+      "also": [
+        {
+          "repo": "record",
+          "command": "test -f docs/pilots/trade-mirror/regeneration-2026-09-12.md"
+        }
+      ],
       "why": "Demonstrated on trade-mirror at generation 2: the charter's lineage block says generation 2 and points at the 2026-09-12T11-18-39-396Z run report, that report exists, and the regeneration record with the verification table and claim-strength grades exists. charter check verifies the chain itself; the anti-drift job stays seconds-fast by checking the stamped artifacts."
     },
     {
       "claim": "Second pilot: adapter-level live verification",
       "status": "shipped",
-      "repo": "platform",
+      "repo": "record",
       "verify": {
         "command": "grep -q '^\\*\\*SA-7' docs/pilots/trade-mirror/friction-log.md && grep -q '^\\*\\*V-8' docs/pilots/trade-mirror/friction-log.md && test -f docs/pilots/trade-mirror/recovered-runtime-evidence/README.md"
       },
@@ -110,7 +122,7 @@
     {
       "claim": "Second pilot: live operation",
       "status": "in-progress",
-      "repo": "platform",
+      "repo": "record",
       "verify": {
         "paths": [
           "docs/pilots/trade-mirror/live-operation"
@@ -214,7 +226,7 @@
     {
       "claim": "External stakeholder pilot",
       "status": "in-progress",
-      "repo": "platform",
+      "repo": "record",
       "verify": {
         "paths": [
           "docs/pilots/external"
