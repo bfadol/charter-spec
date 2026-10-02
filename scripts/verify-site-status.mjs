@@ -3,8 +3,9 @@
  * The site's deploy gate. Runs in this repository's Pages workflow and blocks
  * the deploy unless the site's Status claims are backed.
  *
- * Most Status claims are evidenced by artifacts in the platform's codebase,
- * which this repository cannot see. So the gate has two halves:
+ * Most Status claims are evidenced by artifacts in the platform's codebase
+ * or in the maintainers' engineering record, which this repository cannot
+ * see. So the gate has two halves:
  *
  *   1. LOCAL. Everything that can be verified from this tree is verified
  *      here: the page and the map agree one-to-one per column, every map
@@ -12,12 +13,12 @@
  *      against this tree, exactly as the platform verifies it.
  *
  *   2. ATTESTED. The platform runs the full check against its own tree and
- *      commits the result here as website/status-attestation.json. The gate
+ *      the record's, and commits the result here as website/status-attestation.json. The gate
  *      requires that record to exist, to be under 7 days old, to cover exactly
  *      the claims in the current map, and to show every one of them passing.
  *
- * Platform claims' evidence is never evaluated here: their paths and commands
- * are written for the platform's tree, and their results arrive through the
+ * Platform and record evidence is never evaluated here: its paths and
+ * commands are written for those trees, and the results arrive through the
  * attestation.
  *
  * Run from the repo root: node scripts/verify-site-status.mjs
@@ -26,7 +27,7 @@
 import { readFileSync, existsSync, realpathSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { pageClaims, verdict, REPOS } from "./check-status-claims.mjs";
+import { pageClaims, partVerdict, entryParts, REPOS, REPO_NAMES } from "./check-status-claims.mjs";
 
 const HTML_PATH = "website/index.html";
 const MAP_PATH = "website/status-map.json";
@@ -63,21 +64,31 @@ export function pageMapProblems(page, map, mapPath = MAP_PATH) {
 }
 
 /**
- * Verify the "repo": "spec" claims against this tree. Returns the claims
- * verified here and any problems; platform claims are left to the attestation.
+ * Verify the "repo": "spec" evidence against this tree. Returns the claims
+ * with spec evidence verified here and any problems. Platform and record
+ * evidence is left to the attestation: neither tree is visible from here.
  */
 export function localClaimResults(map, cwd = process.cwd()) {
   const verified = [];
   const problems = [];
   for (const entry of map.claims) {
-    if (!REPOS.includes(entry.repo)) {
-      problems.push(`${entry.status} claim "${entry.claim}" must name its repo ("spec" or "platform"), got ${JSON.stringify(entry.repo)}`);
+    const parts = entryParts(entry);
+    if (parts === null) {
+      problems.push(`${entry.status} claim "${entry.claim}": "also" must be a list of evidence parts`);
       continue;
     }
-    if (entry.repo !== "spec") continue; // evidence lives in the platform
+    const unplaced = parts.find((part) => part === null || typeof part !== "object" || !REPOS.includes(part.repo));
+    if (unplaced !== undefined) {
+      problems.push(`${entry.status} claim "${entry.claim}" must name its repo (${REPO_NAMES}), got ${JSON.stringify(unplaced?.repo)}`);
+      continue;
+    }
+    const specParts = parts.filter((part) => part.repo === "spec");
+    if (specParts.length === 0) continue; // evidence lives outside this tree
     verified.push(entry.claim);
-    const v = verdict(entry, cwd);
-    if (!v.ok) problems.push(`${entry.status} spec claim "${entry.claim}" diverged: ${v.detail}`);
+    for (const part of specParts) {
+      const v = partVerdict(part, entry.status, cwd);
+      if (!v.ok) problems.push(`${entry.status} spec claim "${entry.claim}" diverged: ${v.detail}`);
+    }
   }
   return { verified, problems };
 }

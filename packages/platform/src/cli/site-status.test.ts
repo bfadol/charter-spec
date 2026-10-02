@@ -131,7 +131,7 @@ describe("site deploy gate", () => {
     const { repo: _dropped, ...unplaced } = MAP.claims[0];
     const dir = fixture({ attestation: passing("2026-09-19T11:00:00Z"), map: { claims: [unplaced, ...MAP.claims.slice(1)] } });
     expect(verifySiteStatus({ cwd: dir, now: NOW }).problems).toEqual([
-      expect.stringMatching(/claim "Schema" must name its repo \("spec" or "platform"\), got undefined/),
+      expect.stringMatching(/claim "Schema" must name its repo \("spec", "platform" or "record"\), got undefined/),
     ]);
   });
 
