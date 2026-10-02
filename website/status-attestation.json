@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "platformCommit": "674f12fdc81118b70fa744efc43f454abcf30e72",
-  "generatedAt": "2026-10-02T13:18:03Z",
+  "platformCommit": "344a09c75c6a539ac9abf4481d40c33368e149b4",
+  "generatedAt": "2026-10-02T14:11:39Z",
   "allPassed": true,
   "total": 20,
   "claims": [
@@ -56,13 +56,13 @@
     {
       "claim": "Second pilot: adapter-level live verification",
       "status": "shipped",
-      "repo": "platform",
+      "repo": "record",
       "pass": true
     },
     {
       "claim": "Second pilot: live operation",
       "status": "in-progress",
-      "repo": "platform",
+      "repo": "record",
       "pass": true
     },
     {
@@ -122,7 +122,7 @@
     {
       "claim": "External stakeholder pilot",
       "status": "in-progress",
-      "repo": "platform",
+      "repo": "record",
       "pass": true
     }
   ],
