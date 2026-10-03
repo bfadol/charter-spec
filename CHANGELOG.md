@@ -3,6 +3,10 @@
 Releases of charter-spec, newest first. Each is a git tag. Dates are the date
 of the release commit. Names and codes may change before v1.0.
 
+## v0.4.1, 2026-10-03
+
+* `SECURITY.md` is now in the package. The status claim "The open contract published" cites it as evidence, and the platform checks that evidence against the package it pins; without the file the claim failed there.
+
 ## v0.4.0, 2026-10-03
 
 * Site rewritten around the thesis: how an app is made, in place of the thesis's second paragraph; what a charter declares, with an example for an invented app valid against v0.3.0; the two governance tiers; the eight capabilities; deployment at its grade; the open contract with links to every published document.

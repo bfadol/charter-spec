@@ -1,6 +1,6 @@
 {
   "name": "charter-spec",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "description": "The charter contract: schema, validator, validator tests, and the public site with its status check",
   "license": "Apache-2.0",
@@ -18,7 +18,8 @@
     "docs",
     "packages",
     "scripts",
-    "website"
+    "website",
+    "SECURITY.md"
   ],
   "engines": {
     "node": ">=22.5.0",
