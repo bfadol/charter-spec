@@ -3,6 +3,12 @@
 Releases of charter-spec, newest first. Each is a git tag. Dates are the date
 of the release commit. Names and codes may change before v1.0.
 
+## v0.4.0, 2026-10-03
+
+* Site rewritten around the thesis: how an app is made, in place of the thesis's second paragraph; what a charter declares, with an example for an invented app valid against v0.3.0; the two governance tiers; the eight capabilities; deployment at its grade; the open contract with links to every published document.
+* Status map: twenty claims become five shipped claims and one next. Each entry's `why` is its unproven remainder only; the next claim's evidence is a proxy, recorded as weak. Pilot detail, dates, coverage figures and the external pilot leave the page. This is a status map change; it lands with the platform pin bump that attests it.
+* The site's status test now requires at least two claims verified in this repository, down from three.
+
 ## v0.3.0, 2026-10-03
 
 * `docs/charter-reference.md`: the charter field by field, written against the schema, which remains the authority.
