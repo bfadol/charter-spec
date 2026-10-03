@@ -146,44 +146,112 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
   <div class="wrap nav-inner">
     <a class="wordmark" href="#top">Charter</a>
     <div class="nav-links">
-      <a href="#problem">Why</a>
-      <a href="#capabilities">Platform</a>
-      <a href="#pipeline">How it works</a>
+      <a href="#pipeline">How an app is made</a>
+      <a href="#charter">The charter</a>
       <a href="#tiers">Governance</a>
-      <a href="#deploy">Deploy</a>
+      <a href="#capabilities">Platform</a>
+      <a href="#deploy">Deployment</a>
+      <a href="#contract">Open contract</a>
       <a href="#status">Status</a>
     </div>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div>
-      <p class="eyebrow">A governed micro-application platform</p>
-      <h1>Every app declares what it is. The platform <em>holds it to that.</em></h1>
-      <p class="lede">Charter replaces large monolithic IT delivery with small, AI-generated, purpose-built applications. Each one declares its charter: what it is, what it owns, where its data lives, what review it carries. Conformance is checked by machine, at authoring time, before a line of code ships.</p>
-      <div class="hero-actions">
-        <a class="btn primary" href="#pipeline">See how an app is born</a>
-        <a class="btn ghost" href="#deploy">Deploy sovereign</a>
+  <div class="wrap">
+    <p class="eyebrow">A governed micro-application platform</p>
+    <h1>AI has made code cheap to produce. It has not made software cheaper to own.</h1>
+    <p class="lede">The people accountable for an application still answer for what it does, what data it holds and how it was built, often without having written any of it.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#pipeline">How an app is made</a>
+      <a class="btn ghost" href="#contract">The open contract</a>
+    </div>
+  </div>
+</header>
+
+<section id="pipeline">
+  <div class="wrap">
+    <p class="eyebrow">How an app is made</p>
+    <h2>From a requirement to a recorded app.</h2>
+    <p class="section-lede">The model that writes the code is called through a provider interface. One provider is implemented.</p>
+    <div class="pipeline">
+      <div class="stage">
+        <div class="stage-num">1</div>
+        <div><h4>The requirement</h4><p>Someone writes what the app should do, in plain language. The requirement needs no platform vocabulary.</p></div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">2</div>
+        <div><h4>The charter, confirmed by a person</h4><p>The platform proposes a charter from the requirement and asks a person the questions that are theirs to answer: what data the app owns, where it lives, how sensitive it is, who is accountable for it. The person's answers are recorded. No code is generated before the person confirms the charter.</p></div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">3</div>
+        <div><h4>Generation in checked stages</h4><p>The app is generated in stages. After each stage, fixed rules check the charter and the code against the schema and against each other. A stage that fails stops the run.</p></div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">4</div>
+        <div><h4>The recorded run</h4><p>The run is recorded with the prompts sent to the model, the model used and the schema version. The app's charter points to that record.</p></div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">5</div>
+        <div><h4>Regeneration</h4><p>When the requirement changes, the app is generated again through the same stages. The new record points to the previous one. This has been demonstrated once; the Status section gives its limits.</p></div>
       </div>
     </div>
-    <div class="cert" aria-label="Example charter.yaml shown as a certificate of conformance">
+  </div>
+</section>
+
+<section id="open-format">
+  <div class="wrap">
+    <p class="section-lede">The charter format is open. Its schema, the principles behind it and the conformance codes are published under Apache 2.0, and anyone can use or implement them.</p>
+  </div>
+</section>
+
+
+<section id="charter">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">What a charter declares</p>
+      <h2>A charter is a file kept with the app's code.</h2>
+      <p class="section-lede">This example is for an invented app that handles permit renewals. It consumes data from an existing registry and owns none. Its classification is internal, so it routes to standard review. The example is valid against the v0.3.0 schema.</p>
+      <p class="section-lede">Every field is defined in the <a href="https://github.com/bfadol/charter-spec/blob/main/docs/charter-reference.md">charter field reference</a>.</p>
+    </div>
+    <div class="cert" style="padding-bottom:140px" aria-label="Example charter.yaml for an invented app">
       <div class="cert-head">
         <span class="fname">charter.yaml</span>
-        <span class="fmeta">validated at authoring time</span>
+        <span class="fmeta">example · schema v0.3.0</span>
       </div>
       <div>
-        <span class="k">app</span><span class="v">: trade-mirror-worker</span><br>
-        <span class="k">template</span><span class="v">: worker</span><br>
-        <span class="k">ownership</span><span class="v">: consume</span><br>
+        <span class="k">name</span><span class="v">: permit-renewals</span><br>
+        <span class="k">owner</span><span class="v">: licensing-team</span><br>
+        <span class="k">accountability</span><span class="v">:</span><br>
+        &nbsp;&nbsp;<span class="k">owner</span><span class="v">: licensing-office</span><br>
+        &nbsp;&nbsp;<span class="k">reviewBy</span><span class="v">: 2027-04-01</span><br>
+        <span class="k">domainBoundary</span><span class="v">: "Renewal requests for existing business permits"</span><br>
+        <span class="k">runtimePattern</span><span class="v">: api</span><br>
+        <span class="k">dependencies</span><span class="v">: []</span><br>
+        <span class="k">dataPattern</span><span class="v">:</span><br>
+        &nbsp;&nbsp;<span class="k">storage</span><span class="v">: none</span><br>
+        &nbsp;&nbsp;<span class="k">ownership</span><span class="v">: consume</span><br>
+        &nbsp;&nbsp;<span class="k">classification</span><span class="v">: internal</span><br>
+        &nbsp;&nbsp;<span class="k">retention</span><span class="v">: 1y</span><br>
+        &nbsp;&nbsp;<span class="k">auditRequired</span><span class="v">: true</span><br>
+        <span class="k">lifecycle</span><span class="v">: active</span><br>
+        <span class="k">aiGenerated</span><span class="v">: true</span><br>
+        <span class="k">aiTools</span><span class="v">: [claude-code]</span><br>
         <span class="k">capabilities</span><span class="v">:</span><br>
-        &nbsp;&nbsp;<span class="v">[config, observability,</span><br>
-        &nbsp;&nbsp;&nbsp;<span class="v">resilience, cache, lifecycle]</span><br>
-        <span class="k">provenance</span><span class="v">:</span><br>
-        &nbsp;&nbsp;<span class="k">generated</span><span class="v">: true</span><br>
-        &nbsp;&nbsp;<span class="k">pipeline</span><span class="v">: charter new</span><br>
-        &nbsp;&nbsp;<span class="k">reviewTier</span><span class="v">: standard</span><br>
-        <span class="c"># chartered is machine-checkable</span>
+        &nbsp;&nbsp;<span class="k">identity</span><span class="v">: {}</span><br>
+        &nbsp;&nbsp;<span class="k">config</span><span class="v">: {}</span><br>
+        &nbsp;&nbsp;<span class="k">observability</span><span class="v">: {}</span><br>
+        &nbsp;&nbsp;<span class="k">resilience</span><span class="v">: {}</span><br>
+        &nbsp;&nbsp;<span class="k">cache</span><span class="v">:</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="k">backend</span><span class="v">: memory</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="k">keyPrefix</span><span class="v">: "renewals:"</span><br>
+        <span class="k">integrations</span><span class="v">:</span><br>
+        &nbsp;&nbsp;<span class="v">- </span><span class="k">name</span><span class="v">: permit-registry</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="k">hostsFrom</span><span class="v">: PERMIT_REGISTRY_URL</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="k">credentials</span><span class="v">: [permit-registry-key]</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="k">cadence</span><span class="v">: on-demand</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="k">mode</span><span class="v">: live</span><br>
+        <span class="c"># provenance is added by the harness when the app is generated</span>
       </div>
       <div class="seal" aria-hidden="true">
         <svg viewBox="0 0 120 120">
@@ -191,29 +259,36 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
           <circle cx="60" cy="60" r="44" fill="none" stroke="#7F1734" stroke-width="1"/>
           <path id="rim" d="M 60,60 m -50,0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" fill="none"/>
           <text font-family="IBM Plex Mono" font-size="9.5" fill="#7F1734" letter-spacing="2.5">
-            <textPath href="#rim" startOffset="2%">CHARTERED · ميثاق · VALIDATION PASS ·</textPath>
+            <textPath href="#rim" startOffset="2%">CHARTER · ميثاق · CHARTER · ميثاق ·</textPath>
           </text>
-          <text x="60" y="57" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" fill="#7F1734" font-weight="500">PASS</text>
-          <text x="60" y="72" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#7F1734">charter check</text>
+          <text x="60" y="64" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" fill="#7F1734" font-weight="500">ميثاق</text>
         </svg>
       </div>
     </div>
   </div>
-</header>
+</section>
 
-<section id="problem">
+
+<section id="tiers">
   <div class="wrap">
-    <p class="eyebrow">The problem</p>
-    <h2>Monoliths are slow. Ungoverned AI generation is sprawl.</h2>
-    <p class="section-lede">Public-sector IT programs put every new requirement into a monolith's backlog or a bespoke project that reinvents auth, logging, deployment, and security review from scratch. AI code generation makes producing apps cheap, but cheap production without governance produces unmaintainable sprawl. The gap is a platform that makes generated apps conformant, observable, and accounted for by construction.</p>
-    <div class="two-col">
-      <div class="col problem">
-        <h3>Without Charter</h3>
-        <p>Every app is a snowflake. Identity, telemetry, and secrets handled differently each time. Review happens after the fact, by reading code. Nobody can say with confidence what a generated app owns, where its data lives, or which model produced it.</p>
+    <p class="eyebrow">Governance</p>
+    <h2>Two governance tiers.</h2>
+    <p class="section-lede">Apps in both tiers leave existing systems unchanged and reach them only through their sanctioned interfaces. Apps in both tiers can write. The tiers differ in who holds authority over the data.</p>
+    <div class="tier-grid">
+      <div class="tier">
+        <div class="tier-label">Standard tier · default</div>
+        <h4>Consuming apps</h4>
+        <p>A consuming app submits requests, triggers workflows and updates records through the systems that own them. It holds no durable state beyond caches and operational artifacts. The source systems stay authoritative. Most apps belong here.</p>
       </div>
-      <div class="col answer">
-        <h3>With Charter</h3>
-        <p>Apps conform to one scaffold and inherit shared capabilities instead of reimplementing them. Each app carries a declared charter, validated against the same schema the runtime enforces. Existing ERPs and CRMs are never modified: apps run alongside them, non-invasive by construction.</p>
+      <div class="tier own">
+        <div class="tier-label">Heightened review</div>
+        <h4>Owning apps, and sensitive data</h4>
+        <p>An app that owns its data is the system of record for a bounded domain. Its charter must declare:</p>
+        <ul>
+          <li>What it is the system of record for</li>
+          <li>Where the data lives</li>
+        </ul>
+        <p>An owning app routes to heightened review. So does any app whose data is classified restricted or confidential. The schema derives the tier from these answers; nobody sets it by hand.</p>
       </div>
     </div>
   </div>
@@ -222,69 +297,17 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
 <section id="capabilities">
   <div class="wrap">
     <p class="eyebrow">The platform</p>
-    <h2>Eight capabilities available to every chartered app, declared per app, wired by the platform.</h2>
-    <p class="section-lede">Identity and telemetry are built on open standards, OIDC and OpenTelemetry, and the provider is configuration. The providers run so far are a local OIDC issuer and the OpenTelemetry Collector, on the local stack and a local Kubernetes cluster. Other providers are not yet demonstrated.</p>
+    <h2>Eight shared capabilities.</h2>
+    <p class="section-lede">Every app inherits these from the platform and declares them in its charter. Identity and telemetry are built on open standards, OIDC and OpenTelemetry, and the provider is configuration. The providers run so far are a local OIDC issuer and the OpenTelemetry Collector, on the local stack and a local Kubernetes cluster. Other providers are not yet demonstrated.</p>
     <div class="cap-grid">
-      <div class="cap"><div class="cap-id">identity</div><h4>Identity</h4><p>OIDC as the open standard. Auth middleware and token handling from the platform, provider chosen by config.</p></div>
-      <div class="cap"><div class="cap-id">observability</div><h4>Observability</h4><p>OpenTelemetry built in at boot. Every app is traceable and operable from day one, or it is not chartered.</p></div>
-      <div class="cap"><div class="cap-id">config</div><h4>Configuration</h4><p>Loaded once through the platform layer, including secrets via a pluggable vault abstraction.</p></div>
-      <div class="cap"><div class="cap-id">resilience</div><h4>Resilience</h4><p>Timeouts on every outbound call, bounded retries, declared behavior on dependency failure.</p></div>
-      <div class="cap"><div class="cap-id">cache</div><h4>Caching</h4><p>In-memory, Redis, or off, selected by config. App code never knows which backend is live.</p></div>
-      <div class="cap"><div class="cap-id">feature-flags</div><h4>Feature flags</h4><p>Role and tenant targeting, per-ministry rollouts, percentage releases, cloud-neutral.</p></div>
-      <div class="cap"><div class="cap-id">data-access</div><h4>Data access</h4><p>Governed Postgres persistence with write-deduplication and idempotency, for apps that own data.</p></div>
-      <div class="cap"><div class="cap-id">lifecycle</div><h4>Lifecycle</h4><p>App metadata, versioning, and lifecycle governance carried in the charter itself.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="pipeline">
-  <div class="wrap">
-    <p class="eyebrow">How it works</p>
-    <h2>From a written spec to a chartered app, with a birth certificate.</h2>
-    <p class="section-lede">Generation runs through <code style="font-family:var(--mono);font-size:15px">charter new</code>, a staged pipeline with gates between stages. An app that skips the pipeline has no provenance. Whether an app is chartered is not yet reported by <code style="font-family:var(--mono);font-size:15px">charter check</code>. The pipeline is model-agnostic: the generating model sits behind a swappable provider interface, like every other provider in the platform.</p>
-    <div class="pipeline">
-      <div class="stage">
-        <div class="stage-num">1</div>
-        <div><h4>Write the spec</h4><p>A plain-language solution spec: what the app does, its sources, cadence, outputs, and how it behaves when things fail. The spec is plain language. The translation stage proposes a charter with a rationale per field, and a person concludes ownership and classification, with the answer and the respondent recorded.</p></div>
-      </div>
-      <div class="stage">
-        <div class="stage-num">2</div>
-        <div><h4>Run the pipeline</h4><p><code>charter new</code> assembles each stage's prompt from the spec, the live schema, and the platform templates, generates through the model provider, and gates every stage. Nothing advances past a failed gate.</p></div>
-      </div>
-      <div class="stage">
-        <div class="stage-num">3</div>
-        <div><h4>Validate by machine</h4><p>The app's charter is validated against the same schema the runtime enforces. <code>charter check</code> runs independently after the pipeline: conformance is verified, not claimed. Apps that own data, or whose classification is restricted or confidential, route automatically to heightened review.</p></div>
-      </div>
-      <div class="stage featured">
-        <div class="stage-num">4</div>
-        <div><h4>Stamp provenance</h4><p>The run report captures the exact prompts sent to the model, the model identity, and the schema version, referenced from the app's provenance block. Provenance is not a runtime capability, it is the platform's answer to the question no model can answer: who authorized this app, and how was it made.</p>
-        <p class="proof">Every app the pipeline generates can prove how it was made.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="tiers">
-  <div class="wrap">
-    <p class="eyebrow">Governance</p>
-    <h2>Two tiers. One is the default, the other is earned.</h2>
-    <p class="section-lede">Non-invasiveness to existing systems is absolute in both tiers. What varies is not whether apps can write, both tiers can, but who holds authority over the data. Ownership is never a silent default: it is declared, bounded, and machine-checked.</p>
-    <div class="tier-grid">
-      <div class="tier">
-        <div class="tier-label">Standard tier · default</div>
-        <h4>Consuming apps</h4>
-        <p>Not read-only. Consuming apps submit requests, trigger workflows, and update records, always through existing systems' sanctioned interfaces. What they never do is become the official record: source systems stay authoritative, and the app holds no durable state beyond caches and operational artifacts. Most apps belong here.</p>
-      </div>
-      <div class="tier own">
-        <div class="tier-label">Governed tier · heightened review</div>
-        <h4>Owning apps</h4>
-        <p>The app owns a Postgres database and becomes the system of record for a bounded domain. Legitimate, and deliberately expensive. It cannot pass validation without declaring:</p>
-        <ul>
-          <li>Its system-of-record boundary, stated precisely</li>
-          <li>Its data residency: sovereign cloud, on-prem, or air-gapped</li>
-          <li>Heightened review, routed automatically by the schema</li>
-        </ul>
-      </div>
+      <div class="cap"><div class="cap-id">identity</div><h4>Identity</h4><p>OIDC token validation and role checks.</p></div>
+      <div class="cap"><div class="cap-id">observability</div><h4>Observability</h4><p>Structured logs, correlation IDs and OpenTelemetry export from startup.</p></div>
+      <div class="cap"><div class="cap-id">config</div><h4>Configuration</h4><p>Configuration and secrets read through one interface.</p></div>
+      <div class="cap"><div class="cap-id">resilience</div><h4>Resilience</h4><p>An HTTP client with timeouts, bounded retries and a circuit breaker.</p></div>
+      <div class="cap"><div class="cap-id">cache</div><h4>Caching</h4><p>In-memory, Redis or none, as the charter declares.</p></div>
+      <div class="cap"><div class="cap-id">feature-flags</div><h4>Feature flags</h4><p>Flags targeted by role, tenant or percentage.</p></div>
+      <div class="cap"><div class="cap-id">data-access</div><h4>Data access</h4><p>Owned storage, in memory or on Postgres, with idempotent writes.</p></div>
+      <div class="cap"><div class="cap-id">lifecycle</div><h4>Lifecycle</h4><p>The charter validated at startup, and lifecycle telemetry.</p></div>
     </div>
   </div>
 </section>
@@ -292,26 +315,27 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
 <section id="deploy">
   <div class="wrap">
     <p class="eyebrow">Deployment</p>
-    <h2>Sovereign by default. A kubeconfig is enough.</h2>
-    <div class="deploy-grid">
-      <div>
-        <p class="section-lede">Charter is cloud-agnostic and built on open standards: OIDC for identity, OpenTelemetry for observability, OpenTofu for infrastructure. The portable path targets any conformant Kubernetes cluster, including sovereign cloud, on-prem, and air-gapped environments, with no cloud-provider dependency in the plan. The same app moves between environments by configuration alone. The conformance path currently has one public-registry dependency, the audit gate's advisory lookup, logged as a finding; offline conformance checking is not yet claimed.</p>
-        <p class="deploy-note">An optional Azure-native path (Bicep, Container Apps) exists as a convenience for teams already committed to Azure. It is not part of the portability claim. AWS and GCP are not implemented.</p>
-      </div>
-      <div>
-        <div class="term">
-<span class="prompt">$</span> charter new specs/trade-mirror.md<br>
-<span class="dim">  stage 1/4 · charter drafted ······ pass</span><br>
-<span class="dim">  stage 2/4 · generation ··········· pass</span><br>
-<span class="dim">  stage 3/4 · charter check ········ pass</span><br>
-<span class="dim">  stage 4/4 · provenance stamped ··· pass</span><br>
-<br>
-<span class="prompt">$</span> tofu apply -var-file=sovereign.tfvars<br>
-<span class="dim">  cluster: on-prem · kubeconfig only</span><br>
-<span class="dim">  apply complete</span>
-        </div>
-      </div>
-    </div>
+    <h2>Kubernetes with OpenTofu.</h2>
+    <p class="section-lede">The deployment path is OpenTofu on a Kubernetes cluster, configured through a kubeconfig, with no cloud provider in the plan. Three environments are built from one module. Deployment, a smoke test, a forced failure and a rollback have been exercised on a local cluster. The path has not yet run on a managed or sovereign cluster.</p>
+    <p class="section-lede">Checking an app's conformance still depends on one public registry, the advisory lookup in the audit check. That dependency is a defect to be removed, and it is disclosed here until it is.</p>
+    <p class="deploy-note">An optional Azure-native path (Bicep, Container Apps) exists as a convenience for teams already committed to Azure. It is not part of the portability claim. AWS and GCP are not implemented.</p>
+  </div>
+</section>
+
+<section id="contract">
+  <div class="wrap">
+    <p class="eyebrow">The open contract</p>
+    <h2>What is published.</h2>
+    <p class="section-lede">The charter contract is published in the <a href="https://github.com/bfadol/charter-spec">charter-spec repository</a> under Apache 2.0. It contains:</p>
+    <ul class="section-lede">
+      <li>the charter schema and its validator</li>
+      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/principles.md">the principles</a></li>
+      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/claim-strength.md">claim strength</a>, the grades used for every claim on this page</li>
+      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/conformance-codes.md">the conformance codes</a></li>
+      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/glossary.md">a glossary</a></li>
+      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/charter-reference.md">the charter field reference</a></li>
+      <li><a href="https://github.com/bfadol/charter-spec/blob/main/SECURITY.md">how to report a vulnerability</a></li>
+    </ul>
   </div>
 </section>
 
@@ -319,35 +343,22 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
   <div class="wrap">
     <p class="eyebrow">Status · October 2026</p>
     <h2>What is real today, and what is next.</h2>
+    <p class="section-lede">Each claim below is checked against its evidence before the page is published. Each states what is not yet shown.</p>
     <div class="status-grid">
       <div class="status-col shipped">
         <h4>Shipped</h4>
         <ul>
-          <li><div>Platform foundation, cloud-agnostic<span>Proven by the reference app booting with zero cloud services</span></div></li>
-          <li><div>All eight shared capabilities<span>Including governed data access, caching, and feature flags</span></div></li>
-          <li><div>Generation pipeline, <span style="display:inline;font-family:var(--mono);font-size:14px;color:var(--ink)">charter new</span><span>Staged, gated, with authoring-time validation against the runtime schema</span></div></li>
-          <li><div>Provenance and prompt capture<span>Exact prompts, model identity, and schema version captured for every harness run; charter check does not yet tell a pipeline-stamped birth certificate from a hand-written one</span></div></li>
-          <li><div>Spec-to-charter translation<span>Plain-language specs proposed into charters by the pipeline, so authors need requirement language, not platform vocabulary</span></div></li>
-          <li><div>First pilot: CERT<span>Built before the generation harness and retro-certified; fully local, with a live Platform Panel</span></div></li>
-          <li><div>Second pilot: Trade Mirror Report<span>Generated end to end through the harness; generation 1 stamped 2026-07-04 at 89.09% gate coverage</span></div></li>
-          <li><div>Second pilot: regeneration lineage<span>Demonstrated on trade-mirror at generation 2: regenerated 2026-09-12 from a human-concluded re-translation, chain verified to generation 1 by charter check, stamped at 90.88% gate coverage</span></div></li>
-          <li><div>Second pilot: adapter-level live verification<span>A national open data portal live-verified at adapter level on 2026-07-08, on the generation-1 adapter built outside the harness; an international trade statistics database probed to authentication refusal. Not repeated on generation 2, whose adapters are fixture-tested only</span></div></li>
-          <li><div>Capability-config validation<span>Declared capability config validated against pinned schemas at every generation gate and in charter check; charters declare configuration, never credentials</span></div></li>
-          <li><div>Organizational accountability: declared in every charter<span>Every charter names an accountable unit; the contract requires it on every app. The gates check that the unit is registered, not yet that a person answered it</span></div></li>
-          <li><div>Organizational accountability: owner registry<span>The accountable unit is resolved against a versioned owner registry at authoring time and in charter check; an unregistered or placeholder owner fails by name</span></div></li>
-          <li><div>Data classification: tier routing<span>Restricted or confidential routes the app to heightened review exactly as owned data does, and never lowers a tier</span></div></li>
-          <li><div>Data classification: concluded by a person<span>Translation asks a person for the classification in the requirement's own terms and records the answer: demonstrated in the one completed translation since classification became required. The gates do not yet check that the charter carries the recorded answer</span></div></li>
-          <li><div>Review-by enforcement<span>Every charter carries a re-review date proposed from its tier and confirmed by a person; a date in the past fails charter check by name, REVIEW_BY_EXPIRED, not a warning</span></div></li>
-          <li><div>Integrations declared per app<span>External systems declared per app with hosts, credentials by reference, and cadence; a static gate fails an undeclared outbound host by name and warns by name on declared-but-unwired or statically unresolvable targets. Static detection only: runtime egress verification is not built</span></div></li>
-          <li><div>Declared-versus-wired capability conformance<span>Every declared capability must be wired and every wired capability declared, checked statically in both directions in charter check, with the pilot-two identity finding as its permanent test fixture. Static detection; runtime truth is not claimed</span></div></li>
-          <li><div>Cloud-neutral deployment hardening<span>Multi-environment OpenTofu, secret rotation without redeploy (proven at the provider seam, not yet on a real cluster), per-environment trace sampling, alert rules as code, and a deploy path with rollback exercised on a local cluster</span></div></li>
+          <li><div>The open contract published<span>The charter schema and validator, the principles, claim strength, the conformance codes, a glossary and a field reference, under Apache 2.0. No test yet compares the field reference with the schema.</span></div></li>
+          <li><div>The governed runtime<span>Eight shared capabilities every app inherits, on open standards, running with no cloud services. Only a local OIDC issuer and the OpenTelemetry Collector have been run as providers.</span></div></li>
+          <li><div>Governed generation<span>A person confirms the charter before code is generated, each stage is checked against it by fixed rules, and the run is recorded with its prompts and model. Regeneration with a record that carries forward has been demonstrated once. It holds for apps whose confirmed charter was kept in the repository; other apps cannot yet be regenerated with a matching record.</span></div></li>
+          <li><div>Governance declarations checked by machine<span>Ownership, classification, accountability, a review date, external systems and inherited capabilities are declared in every charter and checked against the schema, an owner registry and the code, statically. The checks do not yet confirm that each declared answer is the one a person gave.</span></div></li>
+          <li><div>Portable deployment exercised on a local cluster<span>OpenTofu on Kubernetes, with deployment, a smoke test, a forced failure and a rollback exercised on a local cluster. Not yet run on a managed or sovereign cluster.</span></div></li>
         </ul>
       </div>
       <div class="status-col progress">
-        <h4>In progress</h4>
+        <h4>Next</h4>
         <ul>
-          <li><div>External stakeholder pilot<span>A real client problem with connected systems, the platform's proving ground</span></div></li>
-          <li><div>Second pilot: live operation<span>Adapter-level live verification on the generation-2 code, and end-to-end scheduled operation, neither yet demonstrated; the only scheduled runs on record failed and the rendered demo was fixture-fed</span></div></li>
+          <li><div>Chartered status checked end to end<span>The platform's check reports whether an app is chartered, and the checks confirm that each declared answer is the one a person gave.</span></div></li>
         </ul>
       </div>
     </div>
@@ -361,10 +372,7 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
       <div>A governed micro-application platform.</div>
     </div>
     <div>
-      Conformance is machine-checkable.<br>
-      <a href="https://github.com/bfadol/charter-spec/blob/main/docs/principles.md">Principles</a> ·
-      <a href="https://github.com/bfadol/charter-spec/blob/main/docs/claim-strength.md">Claim strength</a> ·
-      <a href="https://github.com/bfadol/charter-spec/blob/main/docs/glossary.md">Glossary</a><br>
+      <a href="https://github.com/bfadol/charter-spec">charter-spec</a> · Apache 2.0<br>
       © 2026
     </div>
   </div>
