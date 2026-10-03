@@ -326,9 +326,9 @@ export const appMetadataSchema = z
      * Declared config for shared capabilities (cache, feature-flags,
      * data-access) — the source of truth stage-2 wiring reads from.
      * Optional: apps declaring no shared-capability config omit it, and
-     * its absence is never an error (declared-versus-wired conformance
-     * is out of scope). When present, each entry must satisfy its pinned
-     * capability schema.
+     * its absence is never a schema error. Declared-versus-wired
+     * conformance is checked by `charter check`, not by this schema. When
+     * present, each entry must satisfy its pinned capability schema.
      */
     capabilities: capabilitiesConfigSchema.optional(),
     /**
