@@ -1,128 +1,44 @@
 {
   "schema": 1,
-  "platformCommit": "32560407823cbcea790e072ea530b00c830de8cf",
-  "generatedAt": "2026-10-03T06:28:53Z",
+  "platformCommit": "09d63ee6c784b0973bafe9f646d691f3445e65fc",
+  "generatedAt": "2026-10-03T07:14:16Z",
   "allPassed": true,
-  "total": 20,
+  "total": 6,
   "claims": [
     {
-      "claim": "Platform foundation, cloud-agnostic",
+      "claim": "The open contract published",
+      "status": "shipped",
+      "repo": "spec",
+      "pass": true
+    },
+    {
+      "claim": "The governed runtime",
       "status": "shipped",
       "repo": "platform",
       "pass": true
     },
     {
-      "claim": "All eight shared capabilities",
+      "claim": "Governed generation",
       "status": "shipped",
       "repo": "platform",
       "pass": true
     },
     {
-      "claim": "Generation pipeline, charter new",
+      "claim": "Governance declarations checked by machine",
+      "status": "shipped",
+      "repo": "spec",
+      "pass": true
+    },
+    {
+      "claim": "Portable deployment exercised on a local cluster",
       "status": "shipped",
       "repo": "platform",
       "pass": true
     },
     {
-      "claim": "Provenance and prompt capture",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Spec-to-charter translation",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "First pilot: CERT",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Second pilot: Trade Mirror Report",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Second pilot: regeneration lineage",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Second pilot: adapter-level live verification",
-      "status": "shipped",
-      "repo": "record",
-      "pass": true
-    },
-    {
-      "claim": "Second pilot: live operation",
+      "claim": "Chartered status checked end to end",
       "status": "in-progress",
-      "repo": "record",
-      "pass": true
-    },
-    {
-      "claim": "Capability-config validation",
-      "status": "shipped",
-      "repo": "spec",
-      "pass": true
-    },
-    {
-      "claim": "Organizational accountability: declared in every charter",
-      "status": "shipped",
-      "repo": "spec",
-      "pass": true
-    },
-    {
-      "claim": "Organizational accountability: owner registry",
-      "status": "shipped",
       "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Data classification: tier routing",
-      "status": "shipped",
-      "repo": "spec",
-      "pass": true
-    },
-    {
-      "claim": "Data classification: concluded by a person",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Review-by enforcement",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Integrations declared per app",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Declared-versus-wired capability conformance",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "Cloud-neutral deployment hardening",
-      "status": "shipped",
-      "repo": "platform",
-      "pass": true
-    },
-    {
-      "claim": "External stakeholder pilot",
-      "status": "in-progress",
-      "repo": "record",
       "pass": true
     }
   ],
