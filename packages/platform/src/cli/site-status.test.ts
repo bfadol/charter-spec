@@ -149,6 +149,6 @@ describe("site deploy gate", () => {
     expect(pageMapProblems(page, map)).toEqual([]);
     const { verified, problems } = localClaimResults(map, root);
     expect(problems).toEqual([]);
-    expect(verified.length).toBeGreaterThanOrEqual(3);
+    expect(verified.length).toBeGreaterThanOrEqual(2);
   });
 });

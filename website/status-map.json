@@ -14,93 +14,38 @@
   ],
   "claims": [
     {
-      "claim": "Platform foundation, cloud-agnostic",
+      "claim": "The open contract published",
       "status": "shipped",
-      "repo": "platform",
+      "repo": "spec",
       "verify": {
         "paths": [
-          "packages/platform/src/providers/index.ts",
-          "packages/platform/src/providers/none",
-          "docker-compose.yml"
+          "packages/platform/src/lifecycle/validator.ts",
+          "docs/principles.md",
+          "docs/claim-strength.md",
+          "docs/conformance-codes.md",
+          "docs/glossary.md",
+          "docs/charter-reference.md",
+          "LICENSE",
+          "SECURITY.md"
         ]
       },
-      "why": "The provider selection point (cloud chosen by config), the zero-cloud 'none' provider, and the local boot the claim cites."
+      "why": "No test yet compares the field reference with the schema."
     },
     {
-      "claim": "All eight shared capabilities",
+      "claim": "The governed runtime",
       "status": "shipped",
       "repo": "platform",
       "verify": {
-        "command": "node -e \"['identity','config','observability','resilience','cache','feature-flags','data','lifecycle'].forEach(d => require('node:fs').accessSync('packages/platform/src/' + d))\""
+        "command": "node -e \"['identity','config','observability','resilience','cache','feature-flags','data','lifecycle'].forEach(d => require('node:fs').accessSync('packages/platform/src/' + d))\" && test -f packages/platform/src/providers/index.ts && test -d packages/platform/src/providers/none && test -f docker-compose.yml"
       },
-      "why": "One platform source module per capability named on the page (data-access lives in src/data)."
+      "why": "Only a local OIDC issuer and the OpenTelemetry Collector have been run as providers."
     },
     {
-      "claim": "Generation pipeline, charter new",
+      "claim": "Governed generation",
       "status": "shipped",
       "repo": "platform",
       "verify": {
-        "paths": [
-          "packages/platform/src/cli/pipeline.ts",
-          "packages/platform/src/cli/new.ts",
-          "packages/platform/src/cli/context.ts"
-        ]
-      },
-      "why": "The staged pipeline, its CLI entry, and authoring-time context assembly against the live schema."
-    },
-    {
-      "claim": "Provenance and prompt capture",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "test -f packages/platform/src/cli/capture.ts && test -f packages/platform/src/cli/run-report.ts && ls ai-generation/runs/*/stage1-scaffold.prompt.md > /dev/null"
-      },
-      "why": "The capture contract sources plus at least one committed captured prompt artifact from a real run."
-    },
-    {
-      "claim": "Spec-to-charter translation",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "paths": [
-          "packages/platform/src/cli/translate.ts",
-          "packages/platform/src/cli/proposal.ts",
-          "ai-generation/rules/tier-routing.md",
-          "ai-generation/rules/capability-declare-when.md"
-        ]
-      },
-      "why": "The translation stage, its pinned proposal contract, and the canonical rules the stage prompt consumes."
-    },
-    {
-      "claim": "First pilot: CERT",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "grep -q '^provenance:' packages/cert-api/charter.yaml && test -f packages/cert-web/package.json"
-      },
-      "why": "CERT's charter carries a stamped birth certificate and the Platform Panel web app exists."
-    },
-    {
-      "claim": "Second pilot: Trade Mirror Report",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "grep -q '^provenance:' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-07-04T12-38-14-357Z.json"
-      },
-      "also": [
-        {
-          "repo": "record",
-          "command": "test -f docs/pilots/trade-mirror/phase2-generation.md"
-        }
-      ],
-      "why": "The stamped birth certificate, generation 1's exact run report, and the phase-2 evidence: the merged record. Split 2026-09-13 into one entry per part of the former five-part claim so that each part is verified at its own grade; the pending part moved to In progress (a stale 'regeneration pending' line passed green on 2026-09-12 because prose is not verified: only artifacts are)."
-    },
-    {
-      "claim": "Second pilot: regeneration lineage",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "grep -q '^    generation: 2$' packages/trade-mirror/charter.yaml && grep -q 'runReport: ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json"
+        "command": "test -f packages/platform/src/cli/pipeline.ts && test -f packages/platform/src/cli/new.ts && test -f packages/platform/src/cli/translate.ts && test -f packages/platform/src/cli/proposal.ts && test -f packages/platform/src/cli/capture.ts && test -f packages/platform/src/cli/run-report.ts && ls ai-generation/runs/*/stage1-scaffold.prompt.md > /dev/null && grep -q '^    generation: 2$' packages/trade-mirror/charter.yaml && grep -q 'runReport: ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json' packages/trade-mirror/charter.yaml && test -f ai-generation/runs/trade-mirror-2026-09-12T11-18-39-396Z.json"
       },
       "also": [
         {
@@ -108,108 +53,25 @@
           "command": "test -f docs/pilots/trade-mirror/regeneration-2026-09-12.md"
         }
       ],
-      "why": "Demonstrated on trade-mirror at generation 2: the charter's lineage block says generation 2 and points at the 2026-09-12T11-18-39-396Z run report, that report exists, and the regeneration record with the verification table and claim-strength grades exists. charter check verifies the chain itself; the anti-drift job stays seconds-fast by checking the stamped artifacts."
+      "why": "It holds for apps whose confirmed charter was kept in the repository; other apps cannot yet be regenerated with a matching record."
     },
     {
-      "claim": "Second pilot: adapter-level live verification",
-      "status": "shipped",
-      "repo": "record",
-      "verify": {
-        "command": "grep -q '^\\*\\*SA-7' docs/pilots/trade-mirror/friction-log.md && grep -q '^\\*\\*V-8' docs/pilots/trade-mirror/friction-log.md && test -f docs/pilots/trade-mirror/recovered-runtime-evidence/README.md"
-      },
-      "why": "Recorded at its grade, not higher: A national open data portal live-verified at adapter level on 2026-07-08 (SA-7, on the generation-1 adapter built outside the harness, V-7); an international trade statistics database probed to authentication refusal (SA-7); the fixture-fed demo and failed scheduled runs recovered (V-8). Generation 2 (2026-09-12) regenerated the adapters; that verification was not repeated on them: they are fixture-tested only: which is why the live part sits under In progress."
-    },
-    {
-      "claim": "Second pilot: live operation",
-      "status": "in-progress",
-      "repo": "record",
-      "verify": {
-        "paths": [
-          "docs/pilots/trade-mirror/live-operation"
-        ]
-      },
-      "why": "Two things not yet demonstrated: adapter-level live verification on the generation-2 code, and end-to-end scheduled operation (the only scheduled runs on record, 2026-07-08, all failed; the rendered demo was fixture-fed: V-8). Shipping either means a live-operation record lands under docs/pilots/trade-mirror/live-operation/ (convention declared here); until then that directory must be absent, and its appearance turns this claim red until the page moves it to Shipped.",
-      "note": "CONVENTION CLAIM (accepted as weak, 2026-09-13, same pattern as the external-pilot proxy): a directory's absence stands in for 'not demonstrated'. When live operation ships, replace this proxy with its actual artifact (the run-history record and the live-verification record) in the same change that moves the claim."
-    },
-    {
-      "claim": "Capability-config validation",
+      "claim": "Governance declarations checked by machine",
       "status": "shipped",
       "repo": "spec",
       "verify": {
-        "paths": [
-          "packages/platform/src/lifecycle/capability-config.ts",
-          "packages/platform/src/cache/config-schema.ts",
-          "packages/platform/src/feature-flags/config-schema.ts",
-          "packages/platform/src/data/config-schema.ts"
-        ]
+        "command": "grep -q 'export const accountabilitySchema' packages/platform/src/lifecycle/validator.ts && grep -q 'accountability: accountabilitySchema' packages/platform/src/lifecycle/validator.ts && grep -q 'HEIGHTENED_CLASSIFICATIONS' packages/platform/src/lifecycle/validator.ts && grep -q 'export function derivedReviewTier' packages/platform/src/lifecycle/validator.ts && test -f packages/platform/src/lifecycle/capability-config.ts && test -f packages/platform/src/lifecycle/integration-config.ts"
       },
-      "why": "The capability-to-schema registry and the three pinned config schemas the gates and charter check enforce. Evidence is in the spec: these four files are the contract the platform consumes."
+      "also": [
+        {
+          "repo": "platform",
+          "command": "test -f governance/org-units.yaml && grep -q 'OWNER_UNREGISTERED' packages/platform/src/cli/owner-registry.ts && grep -q 'REVIEW_BY_EXPIRED' packages/platform/src/cli/check.ts && grep -q 'INTEGRATION_UNDECLARED_HOST' packages/platform/src/cli/integration-conformance.ts && grep -q 'CAPABILITY_DECLARED_UNWIRED' packages/platform/src/cli/capability-conformance.ts && grep -q 'CAPABILITY_UNDECLARED_WIRED' packages/platform/src/cli/capability-conformance.ts && grep -q '## Classification routing' ai-generation/rules/tier-routing.md"
+        }
+      ],
+      "why": "The checks do not yet confirm that each declared answer is the one a person gave."
     },
     {
-      "claim": "Organizational accountability: declared in every charter",
-      "status": "shipped",
-      "repo": "spec",
-      "verify": {
-        "command": "grep -q 'export const accountabilitySchema' packages/platform/src/lifecycle/validator.ts && grep -q 'accountability: accountabilitySchema' packages/platform/src/lifecycle/validator.ts"
-      },
-      "why": "The accountability block in the pinned schema, required on every charter. Shipped July 2026. Split 2026-09-19 from the former single claim when the contract moved to its own repository: each half is verified in the repository its evidence lives in."
-    },
-    {
-      "claim": "Organizational accountability: owner registry",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "test -f governance/org-units.yaml && grep -q 'OWNER_UNREGISTERED' packages/platform/src/cli/owner-registry.ts && grep -q 'OWNER_PLACEHOLDER' packages/platform/src/cli/owner-registry.ts"
-      },
-      "why": "The registry the owner resolves against, and the resolver with its named failures (OWNER_UNREGISTERED, OWNER_PLACEHOLDER). Shipped July 2026. The platform half of the former single claim, carrying the same checks it carried before the split."
-    },
-    {
-      "claim": "Data classification: tier routing",
-      "status": "shipped",
-      "repo": "spec",
-      "verify": {
-        "command": "grep -q 'HEIGHTENED_CLASSIFICATIONS' packages/platform/src/lifecycle/validator.ts && grep -q 'export function derivedReviewTier' packages/platform/src/lifecycle/validator.ts"
-      },
-      "why": "The schema's routing rule: heightened classifications derive the tier alongside ownership, and only ever raise it. Shipped July 2026. Split 2026-09-19 from the former single claim when the contract moved to its own repository."
-    },
-    {
-      "claim": "Data classification: concluded by a person",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "grep -q '## Classification routing' ai-generation/rules/tier-routing.md"
-      },
-      "why": "The authoring rule that classification is always asked of a person, never defaulted. Shipped July 2026. The platform half of the former single claim, carrying the same check it carried before the split."
-    },
-    {
-      "claim": "Review-by enforcement",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "grep -q 'REVIEW_BY_EXPIRED' packages/platform/src/cli/check.ts"
-      },
-      "why": "The named failure code in charter check's review-currency gate. Shipped July 2026."
-    },
-    {
-      "claim": "Integrations declared per app",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "test -f packages/platform/src/cli/integration-conformance.ts && grep -q 'INTEGRATION_UNDECLARED_HOST' packages/platform/src/cli/integration-conformance.ts && grep -q 'INTEGRATION_DECLARED_UNWIRED' packages/platform/src/cli/integration-conformance.ts && grep -q 'runtime truth is phase 2' packages/platform/src/cli/integration-conformance.ts packages/platform/src/cli/check.ts"
-      },
-      "why": "The static outbound-surface gate: an undeclared outbound host is a named failure (INTEGRATION_UNDECLARED_HOST); declared-but-unwired (INTEGRATION_DECLARED_UNWIRED) and statically unresolvable targets (INTEGRATION_DYNAMIC_TARGET) are named warnings, never failures: matching the brief's 'what shipped' text and the gate's code. The gate's own line states the limit ('static detection only; runtime truth is phase 2'); the page says runtime egress verification is not built. Shipped July 2026 (phase 1)."
-    },
-    {
-      "claim": "Declared-versus-wired capability conformance",
-      "status": "shipped",
-      "repo": "platform",
-      "verify": {
-        "command": "test -f packages/platform/src/cli/capability-conformance.ts && grep -q 'CAPABILITY_DECLARED_UNWIRED' packages/platform/src/cli/capability-conformance.ts && grep -q 'CAPABILITY_UNDECLARED_WIRED' packages/platform/src/cli/capability-conformance.ts && grep -q 'PILOT-TWO fixture' packages/platform/src/cli/capability-conformance.test.ts"
-      },
-      "why": "The gate with both named directions (CAPABILITY_DECLARED_UNWIRED, CAPABILITY_UNDECLARED_WIRED) and the test named for the pilot-two identity finding (V-2: identity declared, nothing wired on a worker). Shipped 2026-07-15 (backlog 4). Runtime truth is phase 2, per the gate's own line."
-    },
-    {
-      "claim": "Cloud-neutral deployment hardening",
+      "claim": "Portable deployment exercised on a local cluster",
       "status": "shipped",
       "repo": "platform",
       "verify": {
@@ -218,22 +80,21 @@
           "infrastructure/terraform/modules/charter-stack/alerts/rules.yaml.tftpl",
           "docs/K8S-DEPLOYMENT.md",
           "scripts/deploy/smoke-test.sh",
+          "scripts/deploy/rollback.sh",
           ".github/workflows/k8s-smoke-rollback-test.yml"
         ]
       },
-      "why": "The shared stack module, the alert rules, the deploy/rollback doc, the smoke test, and the workflow that exercised rollback on a local (kind) cluster."
+      "why": "Not yet run on a managed or sovereign cluster."
     },
     {
-      "claim": "External stakeholder pilot",
+      "claim": "Chartered status checked end to end",
       "status": "in-progress",
-      "repo": "record",
+      "repo": "platform",
       "verify": {
-        "paths": [
-          "docs/pilots/external"
-        ]
+        "command": "grep -qE '\\bchartered\\??:' packages/platform/src/cli/check.ts"
       },
-      "why": "Shipping it means an external pilot record lands under docs/pilots/external/ (convention declared here); until then that directory must be absent.",
-      "note": "CONVENTION CLAIM (accepted as weak, 2026-07-04; proxy narrowed 2026-07-12): the original proxy was docs/pilots/ absence, which broke exactly as predicted when the INTERNAL pilot-two record landed there (PR #17): the check was red on main from 2026-07-08. Narrowed to docs/pilots/external/, same claim semantics. Still a thin proxy; when the external pilot ships, replace this with its actual artifact."
+      "why": "Not built.",
+      "note": "WEAK PROXY, accepted as weak (owner's ruling, 2026-10-03): the presence of a 'chartered' field in check.ts stands in for 'chartered status checked end to end'. Replace it with the real evidence in the same change that moves this claim to Shipped."
     }
   ]
 }
