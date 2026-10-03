@@ -4,7 +4,7 @@ One line per term. Where a term has a canonical home, the line points to it and 
 
 ## The charter
 
-* **Charter.** The declaration an app carries in `charter.yaml`: what it is, who answers for it, what data it touches, which systems it reaches, and how it was generated. Defined by the schema.
+* **Charter.** The declaration an app carries in `charter.yaml`: what it is, who answers for it, what data it touches, which systems it reaches, and how it was generated. Defined by the schema. Field by field: [charter-reference.md](charter-reference.md).
 * **Chartered.** Said of an app whose charter is valid, whose provenance was stamped by the generation harness or is a retro-certification on the closed pre-harness list, and which passes charter check.
 * **Schema.** The definition of a valid charter. See the README.
 * **Validator.** The function that checks a parsed charter against the schema. It reads no files and reaches no network.
