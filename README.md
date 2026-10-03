@@ -38,6 +38,10 @@ packages/platform/src/
   data/config-schema.ts             Pinned config schema: data access
   **/*.test.ts                      The tests that pin all of the above
 scripts/check-status-claims.mjs     The site's status check
+docs/principles.md                  The principles and standing disciplines
+docs/claim-strength.md              The grades of evidence behind a claim
+docs/conformance-codes.md           The named codes the platform reports
+docs/glossary.md                    Terms, one line each
 website/                            The site, and the map of each status claim to its evidence
 ```
 
