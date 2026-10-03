@@ -38,11 +38,16 @@ packages/platform/src/
   data/config-schema.ts             Pinned config schema: data access
   **/*.test.ts                      The tests that pin all of the above
 scripts/check-status-claims.mjs     The site's status check
+scripts/verify-site-status.mjs      The deploy gate: the status check plus the platform attestation
+scripts/build-site.mjs              Builds the site for GitHub Pages
 docs/principles.md                  The principles and standing disciplines
 docs/claim-strength.md              The grades of evidence behind a claim
 docs/conformance-codes.md           The named codes the platform reports
 docs/glossary.md                    Terms, one line each
+docs/charter-reference.md           The charter, field by field
 website/                            The site, and the map of each status claim to its evidence
+CHANGELOG.md                        Releases, newest first
+SECURITY.md                         How to report a vulnerability
 ```
 
 ## Validate a charter
