@@ -223,7 +223,7 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
   <div class="wrap">
     <p class="eyebrow">The platform</p>
     <h2>Eight capabilities available to every chartered app, declared per app, wired by the platform.</h2>
-    <p class="section-lede">Providers are configuration: the same app runs against Entra ID or any OIDC provider, Application Insights or any OpenTelemetry backend, without a code change.</p>
+    <p class="section-lede">Identity and telemetry are built on open standards, OIDC and OpenTelemetry, and the provider is configuration. The providers run so far are a local OIDC issuer and the OpenTelemetry Collector, on the local stack and a local Kubernetes cluster. Other providers are not yet demonstrated.</p>
     <div class="cap-grid">
       <div class="cap"><div class="cap-id">identity</div><h4>Identity</h4><p>OIDC as the open standard. Auth middleware and token handling from the platform, provider chosen by config.</p></div>
       <div class="cap"><div class="cap-id">observability</div><h4>Observability</h4><p>OpenTelemetry built in at boot. Every app is traceable and operable from day one, or it is not chartered.</p></div>
@@ -241,7 +241,7 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
   <div class="wrap">
     <p class="eyebrow">How it works</p>
     <h2>From a written spec to a chartered app, with a birth certificate.</h2>
-    <p class="section-lede">Generation runs through <code style="font-family:var(--mono);font-size:15px">charter new</code>, a staged pipeline with gates between stages. An app that skips the pipeline has no provenance, and an app without provenance fails conformance. The pipeline is model-agnostic: the generating model sits behind a swappable provider interface, like every other provider in the platform.</p>
+    <p class="section-lede">Generation runs through <code style="font-family:var(--mono);font-size:15px">charter new</code>, a staged pipeline with gates between stages. An app that skips the pipeline has no provenance. Whether an app is chartered is not yet reported by <code style="font-family:var(--mono);font-size:15px">charter check</code>. The pipeline is model-agnostic: the generating model sits behind a swappable provider interface, like every other provider in the platform.</p>
     <div class="pipeline">
       <div class="stage">
         <div class="stage-num">1</div>
@@ -253,12 +253,12 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
       </div>
       <div class="stage">
         <div class="stage-num">3</div>
-        <div><h4>Validate by machine</h4><p>The app's charter is validated against the same schema the runtime enforces. <code>charter check</code> runs independently after the pipeline: conformance is verified, not claimed. Owned-data apps route automatically to heightened review.</p></div>
+        <div><h4>Validate by machine</h4><p>The app's charter is validated against the same schema the runtime enforces. <code>charter check</code> runs independently after the pipeline: conformance is verified, not claimed. Apps that own data, or whose classification is restricted or confidential, route automatically to heightened review.</p></div>
       </div>
       <div class="stage featured">
         <div class="stage-num">4</div>
         <div><h4>Stamp provenance</h4><p>The run report captures the exact prompts sent to the model, the model identity, and the schema version, referenced from the app's provenance block. Provenance is not a runtime capability, it is the platform's answer to the question no model can answer: who authorized this app, and how was it made.</p>
-        <p class="proof">Every chartered app can prove how it was made.</p></div>
+        <p class="proof">Every app the pipeline generates can prove how it was made.</p></div>
       </div>
     </div>
   </div>
@@ -295,7 +295,7 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
     <h2>Sovereign by default. A kubeconfig is enough.</h2>
     <div class="deploy-grid">
       <div>
-        <p class="section-lede">Charter is cloud-agnostic and built on open standards: OIDC for identity, OpenTelemetry for observability, OpenTofu for infrastructure. The portable path targets any conformant Kubernetes cluster, including sovereign cloud, on-prem, and air-gapped environments, with no cloud-provider dependency in the plan. The same app moves between environments by configuration alone. Certification currently has one public-registry dependency, the audit gate's advisory lookup, logged as a finding; offline certification is not yet claimed.</p>
+        <p class="section-lede">Charter is cloud-agnostic and built on open standards: OIDC for identity, OpenTelemetry for observability, OpenTofu for infrastructure. The portable path targets any conformant Kubernetes cluster, including sovereign cloud, on-prem, and air-gapped environments, with no cloud-provider dependency in the plan. The same app moves between environments by configuration alone. The conformance path currently has one public-registry dependency, the audit gate's advisory lookup, logged as a finding; offline conformance checking is not yet claimed.</p>
         <p class="deploy-note">An optional Azure-native path (Bicep, Container Apps) exists as a convenience for teams already committed to Azure. It is not part of the portability claim. AWS and GCP provider implementations are deferred and incremental behind the same interface.</p>
       </div>
       <div>
@@ -317,7 +317,7 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
 
 <section id="status">
   <div class="wrap">
-    <p class="eyebrow">Status · September 2026</p>
+    <p class="eyebrow">Status · October 2026</p>
     <h2>What is real today, and what is next.</h2>
     <div class="status-grid">
       <div class="status-col shipped">
@@ -326,21 +326,21 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
           <li><div>Platform foundation, cloud-agnostic<span>Proven by the reference app booting with zero cloud services</span></div></li>
           <li><div>All eight shared capabilities<span>Including governed data access, caching, and feature flags</span></div></li>
           <li><div>Generation pipeline, <span style="display:inline;font-family:var(--mono);font-size:14px;color:var(--ink)">charter new</span><span>Staged, gated, with authoring-time validation against the runtime schema</span></div></li>
-          <li><div>Provenance and prompt capture<span>Exact prompts, model identity, and schema version per generated app</span></div></li>
+          <li><div>Provenance and prompt capture<span>Exact prompts, model identity, and schema version captured for every harness run; charter check does not yet tell a pipeline-stamped birth certificate from a hand-written one</span></div></li>
           <li><div>Spec-to-charter translation<span>Plain-language specs proposed into charters by the pipeline, so authors need requirement language, not platform vocabulary</span></div></li>
-          <li><div>First pilot: CERT<span>Generated end to end, fully local, with a live Platform Panel</span></div></li>
+          <li><div>First pilot: CERT<span>Built before the generation harness and retro-certified; fully local, with a live Platform Panel</span></div></li>
           <li><div>Second pilot: Trade Mirror Report<span>Generated end to end through the harness; generation 1 stamped 2026-07-04 at 89.09% gate coverage</span></div></li>
           <li><div>Second pilot: regeneration lineage<span>Demonstrated on trade-mirror at generation 2: regenerated 2026-09-12 from a human-concluded re-translation, chain verified to generation 1 by charter check, stamped at 90.88% gate coverage</span></div></li>
           <li><div>Second pilot: adapter-level live verification<span>A national open data portal live-verified at adapter level on 2026-07-08, on the generation-1 adapter built outside the harness; an international trade statistics database probed to authentication refusal. Not repeated on generation 2, whose adapters are fixture-tested only</span></div></li>
           <li><div>Capability-config validation<span>Declared capability config validated against pinned schemas at every generation gate and in charter check; charters declare configuration, never credentials</span></div></li>
-          <li><div>Organizational accountability: declared in every charter<span>Every charter names an accountable unit; the contract requires it on every app</span></div></li>
-          <li><div>Organizational accountability: owner registry<span>The accountable unit is resolved against a versioned owner registry at authoring time and at certification; an unregistered or placeholder owner fails by name</span></div></li>
+          <li><div>Organizational accountability: declared in every charter<span>Every charter names an accountable unit; the contract requires it on every app. The gates check that the unit is registered, not yet that a person answered it</span></div></li>
+          <li><div>Organizational accountability: owner registry<span>The accountable unit is resolved against a versioned owner registry at authoring time and in charter check; an unregistered or placeholder owner fails by name</span></div></li>
           <li><div>Data classification: tier routing<span>Restricted or confidential routes the app to heightened review exactly as owned data does, and never lowers a tier</span></div></li>
-          <li><div>Data classification: concluded by a person<span>Classification is concluded by a person, never defaulted</span></div></li>
-          <li><div>Review-by enforcement<span>Every charter carries a re-review date proposed from its tier and confirmed by a person; a date in the past fails certification by name, REVIEW_BY_EXPIRED, not a warning</span></div></li>
+          <li><div>Data classification: concluded by a person<span>Translation asks a person for the classification in the requirement's own terms and records the answer: demonstrated in the one completed translation since classification became required. The gates do not yet check that the charter carries the recorded answer</span></div></li>
+          <li><div>Review-by enforcement<span>Every charter carries a re-review date proposed from its tier and confirmed by a person; a date in the past fails charter check by name, REVIEW_BY_EXPIRED, not a warning</span></div></li>
           <li><div>Integrations declared per app<span>External systems declared per app with hosts, credentials by reference, and cadence; a static gate fails an undeclared outbound host by name and warns by name on declared-but-unwired or statically unresolvable targets. Static detection only: runtime egress verification is not built</span></div></li>
-          <li><div>Declared-versus-wired capability conformance<span>Every declared capability must be wired and every wired capability declared, checked statically in both directions at certification, with the pilot-two identity finding as its permanent test fixture. Static detection; runtime truth is not claimed</span></div></li>
-          <li><div>Cloud-neutral deployment hardening<span>Multi-environment OpenTofu, secret rotation without redeploy, per-environment trace sampling, alert rules as code, and a deploy path with rollback exercised on a local cluster</span></div></li>
+          <li><div>Declared-versus-wired capability conformance<span>Every declared capability must be wired and every wired capability declared, checked statically in both directions in charter check, with the pilot-two identity finding as its permanent test fixture. Static detection; runtime truth is not claimed</span></div></li>
+          <li><div>Cloud-neutral deployment hardening<span>Multi-environment OpenTofu, secret rotation without redeploy (proven at the provider seam, not yet on a real cluster), per-environment trace sampling, alert rules as code, and a deploy path with rollback exercised on a local cluster</span></div></li>
         </ul>
       </div>
       <div class="status-col progress">
@@ -361,7 +361,10 @@ footer .fm{font-family:var(--display);font-size:17px;color:var(--ink)}
       <div>A governed micro-application platform.</div>
     </div>
     <div>
-      Chartered is machine-checkable.<br>
+      Conformance is machine-checkable.<br>
+      <a href="https://github.com/bfadol/charter-spec/blob/main/docs/principles.md">Principles</a> ·
+      <a href="https://github.com/bfadol/charter-spec/blob/main/docs/claim-strength.md">Claim strength</a> ·
+      <a href="https://github.com/bfadol/charter-spec/blob/main/docs/glossary.md">Glossary</a><br>
       © 2026
     </div>
   </div>
