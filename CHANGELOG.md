@@ -3,6 +3,11 @@
 Releases of charter-spec, newest first. Each is a git tag. Dates are the date
 of the release commit. Names and codes may change before v1.0.
 
+## v0.4.2, 2026-10-04
+
+* Toolchain only; the contract is unchanged. `packageManager` moves from pnpm 11.13.0, a release its publisher marks broken, to 11.13.1, and `engines.pnpm` to `>=11.13.1`. A consumer that installs charter-spec as a git dependency builds it with the pnpm its `packageManager` names, so the release carries the new pin into that build.
+* The Pages workflow runs on `ubuntu-24.04` with actions that run on Node 24, and keeps `.nojekyll` in the published artifact. No claim title, description or status changed, so the status map is unchanged.
+
 ## v0.4.1, 2026-10-03
 
 * `SECURITY.md` is now in the package. The status claim "The open contract published" cites it as evidence, and the platform checks that evidence against the package it pins; without the file the claim failed there.
