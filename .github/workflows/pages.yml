@@ -35,16 +35,16 @@ concurrency:
 jobs:
   check:
     name: Tests, status gate, build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "22"
           cache: pnpm
@@ -65,14 +65,16 @@ jobs:
         run: pnpm build:site
 
       - name: Upload the Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
+          # v4 and later leave dotfiles out unless asked; _site/.nojekyll stays in.
+          include-hidden-files: true
 
   deploy:
     name: Deploy to GitHub Pages
     needs: check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       pages: write
       id-token: write
@@ -82,4 +84,4 @@ jobs:
     steps:
       - name: Deploy
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
