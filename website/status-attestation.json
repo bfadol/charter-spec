@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "platformCommit": "dd63c60516ea8fd29efc00c252cfbe82c87fe866",
-  "generatedAt": "2026-10-10T16:36:20Z",
+  "platformCommit": "aaf9da437738b8882b8cdd3bdbcbb47347488000",
+  "generatedAt": "2026-10-10T16:51:55Z",
   "allPassed": true,
   "total": 6,
   "claims": [
@@ -36,8 +36,8 @@
       "pass": true
     },
     {
-      "claim": "Chartered status checked end to end",
-      "status": "in-progress",
+      "claim": "Chartered status reported by the check",
+      "status": "shipped",
       "repo": "platform",
       "pass": true
     }
