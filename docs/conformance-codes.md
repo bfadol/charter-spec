@@ -1,6 +1,6 @@
 # Conformance codes
 
-The Charter platform reports named codes when it checks an app's conformance (`charter check`) and when it generates one (`charter new`). This file lists them: 33 codes.
+The Charter platform reports named codes when it checks an app's conformance (`charter check`) and when it generates one (`charter new`). This file lists them: 37 codes.
 
 **Names may change before v1.0.** No stability is promised for any code name in this file. Do not build on a name without pinning the charter-spec version you read it in.
 
@@ -17,7 +17,7 @@ The Charter platform reports named codes when it checks an app's conformance (`c
 * `code` field: the code is a value in a `code` field of the structured output. Machine-readable today.
 * text only: the code appears only at the start of a message. It is not in a `code` field. Reading it by machine means matching message text.
 
-14 codes are carried in a `code` field. 15 are text only. The 4 owner codes are in between: see their note.
+18 codes are carried in a `code` field. 15 are text only. The 4 owner codes are in between: see their note.
 
 ## Conformance codes reported by `charter check`
 
@@ -74,6 +74,17 @@ Note: these four are a `code` value on the validation error that the check recei
 | `LINEAGE_IDENTITY_MISMATCH` | failure | `code` field | A run report on the chain is for a different promoted spec, or carries no spec identity. |
 | `LINEAGE_GENERATION_NOT_INCREASING` | failure | `code` field | Generation numbers along the chain do not strictly increase, or the charter and its run report disagree. |
 
+### chartered
+
+| Code | Kind | Carried in | Meaning |
+|---|---|---|---|
+| `CHARTERED_NO_PROVENANCE` | failure | `code` field | The charter carries no provenance block. The app is not chartered. |
+| `CHARTERED_RETRO_NOT_ON_LIST` | failure | `code` field | The charter declares `retroCertified: true` and its name is not on the closed pre-harness list, or its directory name differs from its name. The app is not chartered. |
+| `CHARTERED_RUN_REPORT_UNRESOLVABLE` | failure | `code` field | `provenance.runReport` is absent, does not exist, is not a readable JSON object, or records another app. The app is not chartered. |
+| `STAMPED_APP_NOT_CHARTERED` | failure | `code` field | After stamping, `charter new` or `charter stamp --retro` found the app not chartered on the expected grounds; the run fails. |
+
+Note: `STAMPED_APP_NOT_CHARTERED` is reported by `charter new` and `charter stamp --retro`, not by `charter check`. It is listed here with the chartered status codes it follows from.
+
 ## Generation codes: `charter new`
 
 ### Recorded human answers
@@ -111,4 +122,4 @@ These fail without a named code: a charter that is invalid against the schema, a
 
 ## What this list rests on
 
-The list was taken from the platform's command-line sources by reading every emitting site. It is complete for codes written in upper case with underscores; a code of another shape would not have been found. The "Carried in" column was established by reading the emitting code and its direct callers. The structured output was not captured and compared. Terms used here are defined in [glossary.md](glossary.md), and the grades in [claim-strength.md](claim-strength.md).
+The list was taken from the platform's command-line sources by reading every emitting site. It is complete for codes written in upper case with underscores; a code of another shape would not have been found. The "Carried in" column was established by reading the emitting code and its direct callers. The structured output was not captured and compared. The rows added in v0.4.3 were taken from the text of the platform change that adds them, before the code that emits them was written; they were not read from emitting code. For the three `CHARTERED_` codes and `STAMPED_APP_NOT_CHARTERED`, the "Carried in" value was set when this release was drafted, not taken from a change text. Terms used here are defined in [glossary.md](glossary.md), and the grades in [claim-strength.md](claim-strength.md).

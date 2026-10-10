@@ -87,14 +87,13 @@
       "why": "Not yet run on a managed or sovereign cluster."
     },
     {
-      "claim": "Chartered status checked end to end",
-      "status": "in-progress",
+      "claim": "Chartered status reported by the check",
+      "status": "shipped",
       "repo": "platform",
       "verify": {
-        "command": "grep -qE '\\bchartered\\??:' packages/platform/src/cli/check.ts"
+        "command": "grep -q 'CHARTERED_RETRO_NOT_ON_LIST' packages/platform/src/cli/check.ts && grep -q 'chartered' packages/platform/src/cli/verdict.ts && grep -q 'NEGATIVE: an app that declares retroCertified and is not on the closed list is reported not chartered' packages/platform/src/cli/check.test.ts"
       },
-      "why": "Not built.",
-      "note": "WEAK PROXY, accepted as weak (owner's ruling, 2026-10-03): the presence of a 'chartered' field in check.ts stands in for 'chartered status checked end to end'. Replace it with the real evidence in the same change that moves this claim to Shipped."
+      "why": "It does not yet detect a run record written by hand."
     }
   ]
 }
