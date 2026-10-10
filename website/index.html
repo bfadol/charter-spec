@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Charter, the governed micro-application platform</title>
+<title>Charter: an open contract for applications</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -20,8 +20,8 @@
   --mono:'IBM Plex Mono',ui-monospace,monospace;
   --body:'Public Sans',system-ui,sans-serif;
   --display:'Newsreader',Georgia,serif;
-  --gutter:clamp(20px,5vw,48px);
-  --measure:40rem;
+  --gutter:clamp(20px,5vw,56px);
+  --measure:38rem;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -29,80 +29,61 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 a:hover{text-decoration-thickness:2px}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.wrap{max-width:1080px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
+.wrap{max-width:1200px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
 /* nav */
 nav .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding-top:28px;padding-bottom:28px}
 .wordmark{font-family:var(--display);font-size:22px;font-weight:500;color:var(--ink);text-decoration:none}
-.nav-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px 24px;font-size:14px}
+.nav-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px 28px;font-size:14px}
 .nav-links a{color:var(--muted);text-decoration:none}
 .nav-links a:hover{color:var(--ink)}
-@media(max-width:860px){.nav-links{display:none}}
+@media(max-width:640px){.nav-links{display:none}}
 
 /* hero */
-.hero{padding:clamp(56px,9vw,128px) 0 clamp(64px,8vw,112px)}
-h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,6.2vw,76px);line-height:1.05;letter-spacing:-.015em;max-width:17ch;margin-top:24px}
-.lede{margin-top:32px;font-size:clamp(18px,1.8vw,21px);line-height:1.55;color:var(--muted);max-width:36em}
+.hero{padding:clamp(56px,10vw,144px) 0 clamp(72px,10vw,136px)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(38px,4vw,58px);line-height:1.08;letter-spacing:-.015em;margin-top:24px;max-width:23em}
+.lede{margin-top:32px;font-size:clamp(18px,1.6vw,21px);line-height:1.55;color:var(--muted);max-width:var(--measure)}
 .hero-links{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px 32px;font-size:15px;font-weight:500}
 
-/* sections */
-section{padding:clamp(64px,9vw,112px) 0;border-top:1px solid var(--rule)}
-h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,3.6vw,44px);line-height:1.12;letter-spacing:-.01em;margin:16px 0 24px;max-width:22ch}
-h3,h4{font-weight:600;font-size:17px;line-height:1.4}
-.section-lede{color:var(--muted);max-width:var(--measure)}
-.section-lede + .section-lede{margin-top:16px}
-ul.section-lede{margin-top:16px;padding-left:1.2em}
-ul.section-lede li{margin-top:6px}
+/* sections: heading on the left, content on the right */
+section{padding:clamp(64px,9vw,120px) 0;border-top:1px solid var(--rule)}
+section > .wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:0 clamp(40px,6vw,96px);align-items:start}
+@media(max-width:900px){section > .wrap{grid-template-columns:minmax(0,1fr)}}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,3vw,42px);line-height:1.12;letter-spacing:-.01em;margin:16px 0 24px}
+.body p + p{margin-top:16px}
+.body p{max-width:var(--measure)}
+.muted{color:var(--muted)}
 
-/* pipeline */
-.pipeline{margin-top:56px;list-style:none;max-width:48rem}
-.stage{display:grid;grid-template-columns:3rem 1fr;gap:0 16px;padding:24px 0;border-top:1px solid var(--rule)}
-@media(max-width:520px){.stage{grid-template-columns:2rem 1fr;gap:0 12px}}
-.stage-num{font-family:var(--mono);font-size:14px;color:var(--faint);line-height:1.6}
-.stage p{color:var(--muted);margin-top:4px}
-
-/* charter example */
-.split{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,5vw,64px);align-items:start}
-@media(max-width:900px){.split{grid-template-columns:minmax(0,1fr)}}
+/* part 2: the example charter */
+#charter .head p{color:var(--muted)}
+#charter .head p + p{margin-top:16px}
+figure.example{margin-top:8px}
+@media(max-width:900px){figure.example{margin-top:40px}}
 .example-head{display:flex;justify-content:space-between;gap:16px;font-family:var(--mono);font-size:12px;color:var(--muted);padding:0 0 10px}
-pre.example{background:var(--code-bg);padding:20px 22px;font-family:var(--mono);font-size:12.5px;line-height:1.75;color:var(--ink);overflow-x:auto;-webkit-overflow-scrolling:touch}
-pre.example .k{color:var(--accent)}
-pre.example .c{color:var(--faint)}
+pre.example-code{background:var(--code-bg);padding:clamp(20px,3vw,40px);font-family:var(--mono);font-size:clamp(12.5px,1.1vw,14.5px);line-height:1.8;color:var(--ink);overflow-x:auto;-webkit-overflow-scrolling:touch}
+pre.example-code .k{color:var(--accent)}
+pre.example-code .c{color:var(--faint)}
 
-/* tiers */
-.tiers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(32px,5vw,64px);margin-top:56px}
-@media(max-width:760px){.tiers{grid-template-columns:minmax(0,1fr)}}
-.tier{border-top:1px solid var(--ink);padding-top:20px}
-.tier h3{font-family:var(--display);font-weight:500;font-size:23px;margin:10px 0 12px}
-.tier p{color:var(--muted)}
-.tier p + p{margin-top:12px}
-.tier ul{margin:12px 0;padding-left:1.2em;color:var(--muted)}
-.tier li{margin-top:4px}
-
-/* capabilities */
-.caps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 32px;margin-top:56px}
-@media(max-width:900px){.caps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){.caps{grid-template-columns:minmax(0,1fr)}}
-.cap{border-top:1px solid var(--rule);padding:20px 0 28px}
-.cap-id{font-family:var(--mono);font-size:12px;color:var(--faint)}
-.cap h3{margin:6px 0 4px}
-.cap p{font-size:15px;line-height:1.55;color:var(--muted)}
-
-/* deploy */
-.note{margin-top:24px;font-size:15px;color:var(--faint);max-width:var(--measure)}
+/* part 3: what is published */
+ul.published{list-style:none;margin:28px 0;max-width:var(--measure)}
+ul.published li{padding:12px 0;border-top:1px solid var(--rule)}
+ul.published li:last-child{border-bottom:1px solid var(--rule)}
 
 /* status (styling only: the markup is read by the status check) */
-.status-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:clamp(32px,5vw,64px);margin-top:56px}
-@media(max-width:860px){.status-grid{grid-template-columns:minmax(0,1fr)}}
-.status-col h4{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+#status .wrap > .eyebrow,#status .wrap > h2,#status .wrap > .section-lede{grid-column:1}
+#status .wrap > .section-lede{color:var(--muted)}
+#status .wrap{grid-template-rows:auto auto auto 1fr}
+#status .status-grid{grid-column:2;grid-row:1 / span 4;display:grid;gap:48px}
+@media(max-width:900px){#status .status-grid{grid-column:1;grid-row:auto;margin-top:40px}}
+.status-col h4{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .status-col.shipped h4{color:var(--pass)}
 .status-col ul{list-style:none}
 .status-col li{padding:18px 0;border-top:1px solid var(--rule);display:flex;gap:14px;align-items:baseline;font-weight:600}
 .status-col li::before{font-family:var(--mono);font-size:13px;font-weight:400;flex-shrink:0;width:1em}
 .shipped li::before{content:"✓";color:var(--pass)}
 .progress li::before{content:"→";color:var(--faint)}
-.status-col li span{display:block;margin-top:6px;font-weight:400;font-size:15px;line-height:1.55;color:var(--muted)}
+.status-col li span{display:block;margin-top:6px;font-weight:400;font-size:15.5px;line-height:1.6;color:var(--muted)}
 
 /* footer */
 footer{border-top:1px solid var(--rule);padding:48px 0 64px;font-size:14px;color:var(--muted)}
@@ -116,12 +97,8 @@ footer .fm{font-family:var(--display);font-size:18px;color:var(--ink)}
   <div class="wrap">
     <a class="wordmark" href="#top">Charter</a>
     <div class="nav-links">
-      <a href="#pipeline">How an app is made</a>
-      <a href="#charter">The charter</a>
-      <a href="#tiers">Governance</a>
-      <a href="#capabilities">Platform</a>
-      <a href="#deploy">Deployment</a>
-      <a href="#contract">Open contract</a>
+      <a href="#charter">What a charter is</a>
+      <a href="#contract">What is published</a>
       <a href="#status">Status</a>
     </div>
   </div>
@@ -129,57 +106,29 @@ footer .fm{font-family:var(--display);font-size:18px;color:var(--ink)}
 
 <header class="hero" id="top">
   <div class="wrap">
-    <p class="eyebrow">A governed micro-application platform</p>
+    <p class="eyebrow">An open contract</p>
     <h1>AI has made code cheap to produce. It has not made software cheaper to own.</h1>
-    <p class="lede">The people accountable for an application still answer for what it does, what data it holds and how it was built, often without having written any of it.</p>
+    <p class="lede">The people accountable for an application still answer for what it does, what data it holds and how it was built, often without having written any of it. A charter is where those answers are written down, in a form a machine can check.</p>
     <p class="hero-links">
-      <a href="#pipeline">How an app is made</a>
-      <a href="#contract">The open contract</a>
+      <a href="#charter">What a charter is</a>
+      <a href="#contract">What is published</a>
     </p>
   </div>
 </header>
 
-<section id="pipeline">
-  <div class="wrap">
-    <p class="eyebrow">How an app is made</p>
-    <h2>From a requirement to a recorded app.</h2>
-    <p class="section-lede">The model that writes the code is called through a provider interface. One provider is implemented.</p>
-    <ol class="pipeline">
-      <li class="stage">
-        <div class="stage-num">01</div>
-        <div><h3>The requirement</h3><p>Someone writes what the app should do, in plain language. The requirement needs no platform vocabulary.</p></div>
-      </li>
-      <li class="stage">
-        <div class="stage-num">02</div>
-        <div><h3>The charter, confirmed by a person</h3><p>The platform proposes a charter from the requirement and asks a person the questions that are theirs to answer: what data the app owns, where it lives, how sensitive it is, who is accountable for it. The person's answers are recorded. No code is generated before the person confirms the charter.</p></div>
-      </li>
-      <li class="stage">
-        <div class="stage-num">03</div>
-        <div><h3>Generation in checked stages</h3><p>The app is generated in stages. After each stage, fixed rules check the charter and the code against the schema and against each other. A stage that fails stops the run.</p></div>
-      </li>
-      <li class="stage">
-        <div class="stage-num">04</div>
-        <div><h3>The recorded run</h3><p>The run is recorded with the prompts sent to the model, the model used and the schema version. The app's charter points to that record.</p></div>
-      </li>
-      <li class="stage">
-        <div class="stage-num">05</div>
-        <div><h3>Regeneration</h3><p>When the requirement changes, the app is generated again through the same stages. The new record points to the previous one. This has been demonstrated once; the Status section gives its limits.</p></div>
-      </li>
-    </ol>
-  </div>
-</section>
-
 <section id="charter">
-  <div class="wrap split">
-    <div>
-      <p class="eyebrow">What a charter declares</p>
-      <h2>A charter is a file kept with the app's code.</h2>
-      <p class="section-lede">This example is for an invented app that handles permit renewals. It consumes data from an existing registry and owns none. Its classification is internal, so it routes to standard review. The example is valid against the v0.3.0 schema.</p>
-      <p class="section-lede">Every field is defined in the <a href="https://github.com/bfadol/charter-spec/blob/main/docs/charter-reference.md">charter field reference</a>.</p>
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">What a charter is</p>
+      <h2>A file kept with the app's code.</h2>
+      <p>A charter declares what an app is, who is accountable for it, what it depends on, what data it touches and how sensitive that data is, which external systems it reaches, and how it was generated. The schema defines a valid charter. The validator checks one when it is written.</p>
+      <p>Ownership, residency, classification and accountability are answered by a person, never inferred; the <a href="https://github.com/bfadol/charter-spec/blob/main/docs/principles.md">principles</a> say why. The review tier follows from those answers. An app that owns its data, or whose data is classified restricted or confidential, goes to heightened review. Other apps go to standard review. The schema derives the tier, and nobody sets it by hand.</p>
+      <p>This example is for an invented app that handles permit renewals. It consumes data from an existing registry and owns none. Its classification is internal, so it routes to standard review. The example is valid against the v0.4.2 schema.</p>
+      <p>Every field is defined in the <a href="https://github.com/bfadol/charter-spec/blob/main/docs/charter-reference.md">charter field reference</a>.</p>
     </div>
-    <figure aria-label="Example charter.yaml for an invented app">
-      <figcaption class="example-head"><span>charter.yaml</span><span>example · schema v0.3.0</span></figcaption>
-<pre class="example"><code><span class="k">name</span>: permit-renewals
+    <figure class="example" aria-label="Example charter.yaml for an invented app">
+      <figcaption class="example-head"><span>charter.yaml</span><span>example · schema v0.4.2</span></figcaption>
+<pre class="example-code"><code><span class="k">name</span>: permit-renewals
 <span class="k">owner</span>: licensing-team
 <span class="k">accountability</span>:
   <span class="k">owner</span>: licensing-office
@@ -215,74 +164,27 @@ footer .fm{font-family:var(--display);font-size:18px;color:var(--ink)}
   </div>
 </section>
 
-<section id="tiers">
-  <div class="wrap">
-    <p class="eyebrow">Governance</p>
-    <h2>Two governance tiers.</h2>
-    <p class="section-lede">Apps in both tiers leave existing systems unchanged, reach them only through their sanctioned interfaces, and can write. The tiers differ in who holds authority over the data.</p>
-    <div class="tiers">
-      <div class="tier">
-        <p class="eyebrow">Standard tier · default</p>
-        <h3>Consuming apps</h3>
-        <p>A consuming app submits requests, triggers workflows and updates records through the systems that own them. It holds no durable state beyond caches and operational artifacts. The source systems stay authoritative. Most apps belong here.</p>
-      </div>
-      <div class="tier">
-        <p class="eyebrow">Heightened review</p>
-        <h3>Owning apps, and sensitive data</h3>
-        <p>An app that owns its data is the system of record for a bounded domain. Its charter must declare:</p>
-        <ul>
-          <li>What it is the system of record for</li>
-          <li>Where the data lives</li>
-        </ul>
-        <p>An owning app routes to heightened review. So does any app whose data is classified restricted or confidential. The schema derives the tier from these answers; nobody sets it by hand.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="capabilities">
-  <div class="wrap">
-    <p class="eyebrow">The platform</p>
-    <h2>Eight shared capabilities.</h2>
-    <p class="section-lede">Every app inherits these from the platform and declares them in its charter. Identity and telemetry are built on open standards, OIDC and OpenTelemetry, and the provider is configuration. The providers run so far are a local OIDC issuer and the OpenTelemetry Collector, on the local stack and a local Kubernetes cluster. Other providers are not yet demonstrated.</p>
-    <div class="caps">
-      <div class="cap"><div class="cap-id">identity</div><h3>Identity</h3><p>OIDC token validation and role checks.</p></div>
-      <div class="cap"><div class="cap-id">observability</div><h3>Observability</h3><p>Structured logs, correlation IDs and OpenTelemetry export from startup.</p></div>
-      <div class="cap"><div class="cap-id">config</div><h3>Configuration</h3><p>Configuration and secrets read through one interface.</p></div>
-      <div class="cap"><div class="cap-id">resilience</div><h3>Resilience</h3><p>An HTTP client with timeouts, bounded retries and a circuit breaker.</p></div>
-      <div class="cap"><div class="cap-id">cache</div><h3>Caching</h3><p>In-memory, Redis or none, as the charter declares.</p></div>
-      <div class="cap"><div class="cap-id">feature-flags</div><h3>Feature flags</h3><p>Flags targeted by role, tenant or percentage.</p></div>
-      <div class="cap"><div class="cap-id">data-access</div><h3>Data access</h3><p>Owned storage, in memory or on Postgres, with idempotent writes.</p></div>
-      <div class="cap"><div class="cap-id">lifecycle</div><h3>Lifecycle</h3><p>The charter validated at startup, and lifecycle telemetry.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="deploy">
-  <div class="wrap">
-    <p class="eyebrow">Deployment</p>
-    <h2>Kubernetes with OpenTofu.</h2>
-    <p class="section-lede">The deployment path is OpenTofu on a Kubernetes cluster, configured through a kubeconfig, with no cloud provider in the plan. Three environments are built from one module. Deployment, a smoke test, a forced failure and a rollback have been exercised on a local cluster. The path has not yet run on a managed or sovereign cluster.</p>
-    <p class="section-lede">Checking an app's conformance still depends on one public registry, the advisory lookup in the audit check. That dependency is a defect to be removed, and it is disclosed here until it is.</p>
-    <p class="note">An optional Azure-native path (Bicep, Container Apps) exists as a convenience for teams already committed to Azure. It is not part of the portability claim. AWS and GCP are not implemented.</p>
-  </div>
-</section>
-
 <section id="contract">
   <div class="wrap">
-    <p class="eyebrow">The open contract</p>
-    <h2>What is published.</h2>
-    <p class="section-lede">The charter format is open. Its schema, the principles behind it and the conformance codes are published under Apache 2.0, and anyone can use or implement them.</p>
-    <p class="section-lede">It is published in the <a href="https://github.com/bfadol/charter-spec">charter-spec repository</a>, which contains:</p>
-    <ul class="section-lede">
-      <li>the charter schema and its validator</li>
-      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/principles.md">the principles</a></li>
-      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/claim-strength.md">claim strength</a>, the grades used for every claim on this page</li>
-      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/conformance-codes.md">the conformance codes</a></li>
-      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/glossary.md">a glossary</a></li>
-      <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/charter-reference.md">the charter field reference</a></li>
-      <li><a href="https://github.com/bfadol/charter-spec/blob/main/SECURITY.md">how to report a vulnerability</a></li>
-    </ul>
+    <div class="head">
+      <p class="eyebrow">What is published</p>
+      <h2>The contract is open.</h2>
+    </div>
+    <div class="body">
+      <p>The charter format is open. Its schema, the principles behind it and the conformance codes are published under Apache 2.0, and anyone can use or implement them.</p>
+      <p>It is published in the <a href="https://github.com/bfadol/charter-spec">charter-spec repository</a>, which contains:</p>
+      <ul class="published">
+        <li>the charter schema and its validator</li>
+        <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/principles.md">the principles</a></li>
+        <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/claim-strength.md">claim strength</a>, the grades used for every claim on this page</li>
+        <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/conformance-codes.md">the conformance codes</a></li>
+        <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/glossary.md">a glossary</a></li>
+        <li><a href="https://github.com/bfadol/charter-spec/blob/main/docs/charter-reference.md">the charter field reference</a></li>
+        <li><a href="https://github.com/bfadol/charter-spec/blob/main/SECURITY.md">how to report a vulnerability</a></li>
+      </ul>
+      <p class="muted">A separate, licensed product generates applications and holds them to their charters. Reading, validating or testing a charter needs nothing outside that repository.</p>
+      <p class="muted">Checking an app's conformance still depends on one public registry, the advisory lookup in the audit check. Principle 5 makes that a defect to be removed, and it is disclosed here until it is.</p>
+    </div>
   </div>
 </section>
 
@@ -316,11 +218,11 @@ footer .fm{font-family:var(--display);font-size:18px;color:var(--ink)}
   <div class="wrap">
     <div>
       <div class="fm">Charter</div>
-      <div>A governed micro-application platform.</div>
+      <div>The charter contract: schema, principles and conformance codes.</div>
     </div>
     <div>
       <a href="https://github.com/bfadol/charter-spec">charter-spec</a> · Apache 2.0<br>
-      © 2026
+      © 2026 Bassam Fadol
     </div>
   </div>
 </footer>
